@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rowing Dashboard</title>
+  <style>
+    :root{
+      --bg1:#1a1a2e;
+      --bg2:#16213e;
+      --line:rgba(255,255,255,.10);
+      --text:#f7fbff;
+      --muted:rgba(247,251,255,.78);
+      --warm:#f3c64d;
+      --sprint:#ff5757;
+      --recovery:#30d27c;
+      --endurance:#ff944d;
+      --free:#56a8ff;
+      --shadow:0 1.2rem 3rem rgba(0,0,0,.30);
+      --danger:#d84b4b;
+      --success:#27c46a;
+      --hover:#7cc7ff;
+      --hover-2:#f3c64d;
+      --glass:rgba(255,255,255,.055);
+    }
+
+    *{ box-sizing:border-box; }
+
+    html, body{
+      margin:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:linear-gradient(135deg, #2b1008 0%, #432115 50%, #1a0a05 100%);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+      font-weight:700;
+    }
+
+    body{
+      font-size:clamp(18px, 1.5vw, 30px);
+      color:var(--text);
+      user-select:none;
+      -webkit-user-select:none;
+      -ms-user-select:none;
+    }
+
+    .app{
+      width:100vw;
+      height:100vh;
+      padding:2vh 2vw;
+    }
+
+    .screen{
+      width:100%;
+      height:100%;
+      border:1px solid var(--line);
+      border-radius:2rem;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .hidden{ display:none !important; }
+
+    .menu{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:2.4vh;
+      padding:3vh 3vw;
+    }
+
+    .menu-header{
+      flex:0 0 auto;
+      text-align:center;
+    }
+
+    .menu-title{
+      margin:0;
+      font-size:clamp(2.3rem, 4.4vw, 4.8rem);
+      font-weight:900;
+      letter-spacing:.04em;
+      color:var(--text);
+    }
+
+    .menu-subtitle{
+      margin:1vh auto 0;
+      color:var(--muted);
+      line-height:1.35;
+      font-size:clamp(1.05rem, 1.3vw, 1.35rem);
+      font-weight:800;
+    }
+
+    .menu-grid{
+      flex:0 0 auto;
+      display:grid;
+      grid-template-columns:repeat(2, minmax(18rem, 1fr));
+      gap:2vh 1.5vw;
+      align-content:center;
+    }
+
+    .menu-btn{
+      width:100%;
+      min-height:24vh;
+      border:none;
+      border-radius:1.7rem;
+      cursor:pointer;
+      text-align:left;
+      color:var(--text);
+      padding:1.6rem 1.6rem 1.4rem;
+      background:rgba(255,255,255,.05);
+      border:0.08rem solid rgba(255,255,255,.14);
+      transition:transform .16s ease, filter .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:1rem;
+      font-weight:800;
+      backdrop-filter: blur(12px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .menu-btn:hover,
+    .menu-btn:focus{
+      transform:translateY(-0.2rem);
+      outline:none;
+      border-color:var(--hover);
+      background:rgba(255,255,255,.085);
+      box-shadow:
+        0 0 0 .16rem rgba(124,199,255,.18) inset,
+        0 .9rem 2rem rgba(0,0,0,.20);
+      filter:brightness(1.07);
+    }
+
+    .menu-btn:focus-visible{
+      border-color:var(--hover-2);
+      box-shadow:
+        0 0 0 .16rem rgba(243,198,77,.20) inset,
+        0 .9rem 2rem rgba(0,0,0,.20);
+    }
+
+    .program-title{
+      font-size:clamp(1.65rem, 2.25vw, 2.65rem);
+      font-weight:900;
+      margin:0;
+      color:var(--text);
+      line-height:1.1;
+    }
+
+    .program-details{
+      margin:.1rem 0 0;
+      padding-left:1.2rem;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:clamp(.95rem, 1.02vw, 1.08rem);
+      font-weight:800;
+    }
+
+    .program-details li{
+      margin:.2rem 0;
+    }
+
+    .program-footer{
+      color:rgba(247,251,255,.96);
+      line-height:1.25;
+      font-size:clamp(1rem, 1.06vw, 1.14rem);
+      font-weight:900;
+      margin-top:.2rem;
+    }
+
+    .workout{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:1.6vh;
+      padding:2.2vh 2.2vw;
+    }
+
+    .top-section{
+      flex:0 0 auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      padding:1.2rem 1.4rem;
+      border:1px solid var(--line);
+      border-radius:1.4rem;
+      background:var(--glass);
+      backdrop-filter: blur(10px);
+    }
+
+    .program-label{
+      font-size:clamp(1.35rem, 1.9vw, 2rem);
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+
+    .phase-label{
+      min-width:18rem;
+      text-align:center;
+      border-radius:999px;
+      padding:.85rem 1.2rem;
+      font-size:clamp(1.15rem, 1.7vw, 1.75rem);
+      font-weight:900;
+      color:#081018;
+      background:var(--warm);
+    }
+
+    .middle-section{
+      flex:1 1 auto;
+      min-height:0;
+      display:flex;
+      gap:1.2vw;
+    }
+
+    .timer-panel,
+    .metronome-panel{
+      border:1px solid var(--line);
+      border-radius:1.6rem;
+      background:var(--glass);
+      padding:1.2rem;
+      min-height:0;
+      backdrop-filter: blur(12px);
+    }
+
+    .timer-panel{
+      flex:1 1 72%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .canvas-shell{
+      width:100%;
+      height:100%;
+      min-height:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    #timerCanvas{
+      width:100%;
+      height:100%;
+      display:block;
+      max-width:100%;
+      max-height:100%;
+      border-radius:1rem;
+    }
+
+    .metronome-panel{
+      flex:0 0 24%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      gap:1rem;
+      padding:2rem 1.2rem;
+    }
+
+    .metro-title{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:clamp(.95rem, 1.05vw, 1.1rem);
+      font-weight:900;
+    }
+
+    .metro-spm{
+      font-size:clamp(1.8rem, 2.6vw, 3rem);
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .metro-track{
+      width:88%;
+      height:1.2rem;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:999px;
+      position:relative;
+      overflow:hidden;
+      margin-top:.4rem;
+    }
+
+    .metro-dot{
+      position:absolute;
+      top:50%;
+      left:0%;
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      transform:translate(-50%, -50%);
+      background:#56a8ff;
+      box-shadow:0 0 1.5rem rgba(86,168,255,.45);
+    }
+
+    .metro-hint{
+      color:var(--muted);
+      font-size:clamp(.95rem, 1.02vw, 1.08rem);
+      line-height:1.4;
+      max-width:16rem;
+    }
+
+    .bottom-section{
+      flex:0 0 auto;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:1.2vw;
+    }
+
+    .stat-box{
+      min-height:14vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:1rem 1.1rem;
+      border:1px solid var(--line);
+      border-radius:1.5rem;
+      background:var(--glass);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-label{
+      color:var(--muted);
+      font-size:clamp(1rem, 1.1vw, 1.16rem);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:.5rem;
+      font-weight:900;
+    }
+
+    .stat-value{
+      font-size:clamp(2rem, 3vw, 3.3rem);
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .controls{
+      flex:0 0 auto;
+      display:flex;
+      justify-content:center;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+
+    button.ctrl{
+      border:none;
+      border-radius:1.1rem;
+      padding:1rem 1.5rem;
+      min-width:12rem;
+      cursor:pointer;
+      color:var(--text);
+      font-size:clamp(1rem, 1.16vw, 1.22rem);
+      font-weight:900;
+      transition:transform .15s ease, filter .15s ease, background-color .15s ease, opacity .15s ease;
+    }
+
+    button.ctrl:hover,
+    button.ctrl:focus{
+      transform:translateY(-0.12rem);
+      filter:brightness(1.05);
+      outline:none;
+    }
+
+    .neutral{ background:#273243; }
+    .danger{ background:#5d2832; }
+
+    @media (max-width: 1100px){
+      .menu-grid{ grid-template-columns:1fr; }
+      .top-section{
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .phase-label{ min-width:0; }
+      .middle-section{
+        flex-direction:column;
+      }
+      .metronome-panel{
+        flex:0 0 auto;
+        min-height:18vh;
+      }
+      .bottom-section{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="screen">
+      <section id="menuScreen" class="menu">
+        <div class="menu-header">
+          <h1 class="menu-title">SESSIONE DI VOGA</h1>
+          <div class="menu-subtitle">Seleziona un programma</div>
+        </div>
+
+        <div id="menuGrid" class="menu-grid">
+          <button class="menu-btn" type="button" data-program="20 MIN - HIIT">
+            <div class="program-title">20 MIN - HIIT</div>
+            <ul class="program-details">
+              <li>2 min riscaldamento</li>
+              <li>8 blocchi (1 min sprint / 1 min recupero)</li>
+              <li>2 min defaticamento</li>
+            </ul>
+            <div class="program-footer">Durata totale: 20:00</div>
+          </button>
+
+          <button class="menu-btn" type="button" data-program="30 MIN - HIIT">
+            <div class="program-title">30 MIN - HIIT</div>
+            <ul class="program-details">
+              <li>3 min riscaldamento</li>
+              <li>10 blocchi (75 sec sprint / 75 sec recupero)</li>
+              <li>4 min defaticamento</li>
+            </ul>
+            <div class="program-footer">Durata totale: 30:00</div>
+          </button>
+
+          <button class="menu-btn" type="button" data-program="45 MIN - ENDURANCE">
+            <div class="program-title">45 MIN - ENDURANCE</div>
+            <ul class="program-details">
+              <li>5 min riscaldamento</li>
+              <li>3 blocchi endurance con recupero controllato</li>
+              <li>3 min defaticamento</li>
+            </ul>
+            <div class="program-footer">Durata totale: 45:00</div>
+          </button>
+
+          <button class="menu-btn" type="button" data-program="VOGA LIBERA">
+            <div class="program-title">VOGA LIBERA</div>
+            <ul class="program-details">
+              <li>Sessione continua</li>
+              <li>Ritmo libero</li>
+              <li>Nessuna sequenza a intervalli</li>
+            </ul>
+            <div class="program-footer">Durata totale: 08:00:00</div>
+          </button>
+        </div>
+      </section>
+
+      <section id="workoutScreen" class="workout hidden">
+        <div class="top-section">
+          <div id="programLabel" class="program-label">Programma</div>
+          <div id="phaseLabel" class="phase-label">RISCALDAMENTO</div>
+        </div>
+
+        <div class="middle-section">
+          <div class="timer-panel">
+            <div class="canvas-shell">
+              <canvas id="timerCanvas"></canvas>
+            </div>
+          </div>
+
+          <div class="metronome-panel">
+            <div class="metro-title">Metronomo visivo</div>
+            <div id="metroSpm" class="metro-spm">24 SPM</div>
+            <div class="metro-track">
+              <div id="metroDot" class="metro-dot"></div>
+            </div>
+            <div class="metro-hint">Segui il movimento del punto per mantenere il ritmo della vogata.</div>
+          </div>
+        </div>
+
+        <div class="bottom-section">
+          <div class="stat-box">
+            <div class="stat-label">Tempo Totale</div>
+            <div id="elapsedText" class="stat-value">00:00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Tempo Rimanente Fase</div>
+            <div id="remainingText" class="stat-value">00:00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Stroke Rate Target</div>
+            <div id="spmText" class="stat-value">24</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="pauseBtn" class="ctrl">PAUSA</button>
+          <button id="restartBtn" class="ctrl neutral">RICOMINCIA</button>
+          <button id="menuBtn" class="ctrl danger">STOP</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const programs = {
+      "20 MIN - HIIT": {
+        name: "20 MIN - HIIT",
+        duration: 20 * 60,
+        type: "hiit20",
+        phases: [
+          { name: "RISCALDAMENTO", duration: 120, spm: 22, type: "warmup" },
+          ...Array.from({length: 8}, (_, i) => ([
+            { name: `SPRINT ${i+1}`, duration: 60, spm: 28, type: "sprint" },
+            { name: `RECUPERO ${i+1}`, duration: 60, spm: 22, type: "recovery" }
+          ])).flat(),
+          { name: "DEFATICAMENTO", duration: 120, spm: 20, type: "cooldown" }
+        ]
+      },
+      "30 MIN - HIIT": {
+        name: "30 MIN - HIIT",
+        duration: 30 * 60,
+        type: "hiit30",
+        phases: [
+          { name: "RISCALDAMENTO", duration: 180, spm: 22, type: "warmup" },
+          ...Array.from({length: 10}, (_, i) => ([
+            { name: `SPRINT ${i+1}`, duration: 75, spm: 28, type: "sprint" },
+            { name: `RECUPERO ${i+1}`, duration: 75, spm: 22, type: "recovery" }
+          ])).flat(),
+          { name: "DEFATICAMENTO", duration: 240, spm: 20, type: "cooldown" }
+        ]
+      },
+      "45 MIN - ENDURANCE": {
+        name: "45 MIN - ENDURANCE",
+        duration: 45 * 60,
+        type: "endurance45",
+        phases: [
+          { name: "RISCALDAMENTO", duration: 300, spm: 20, type: "warmup" },
+          { name: "ENDURANCE 1", duration: 600, spm: 24, type: "endurance" },
+          { name: "RECUPERO", duration: 180, spm: 20, type: "recovery" },
+          { name: "ENDURANCE 2", duration: 900, spm: 24, type: "endurance" },
+          { name: "RECUPERO", duration: 180, spm: 20, type: "recovery" },
+          { name: "ENDURANCE 3", duration: 360, spm: 25, type: "endurance" },
+          { name: "DEFATICAMENTO", duration: 180, spm: 18, type: "cooldown" }
+        ]
+      },
+      "VOGA LIBERA": {
+        name: "VOGA LIBERA",
+        duration: 28800,
+        type: "free",
+        phases: [
+          { name: "SESSIONE LIBERA", duration: 28800, spm: 24, type: "free" }
+        ]
+      }
+    };
+
+    const state = {
+      currentProgram: null,
+      currentPhaseIndex: 0,
+      phaseElapsed: 0,
+      totalElapsed: 0,
+      rafId: null,
+      lastTs: 0,
+      metronomeStart: 0,
+      audioCtx: null,
+      isPaused: false
+    };
+
+    const menuScreen = document.getElementById("menuScreen");
+    const workoutScreen = document.getElementById("workoutScreen");
+    const programLabel = document.getElementById("programLabel");
+    const phaseLabel = document.getElementById("phaseLabel");
+    const elapsedText = document.getElementById("elapsedText");
+    const remainingText = document.getElementById("remainingText");
+    const spmText = document.getElementById("spmText");
+    const metroSpm = document.getElementById("metroSpm");
+    const metroDot = document.getElementById("metroDot");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const menuBtn = document.getElementById("menuBtn");
+    const canvas = document.getElementById("timerCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function css(name){
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function phaseColor(type){
+      switch(type){
+        case "sprint": return css("--sprint");
+        case "recovery": return css("--recovery");
+        case "warmup":
+        case "cooldown": return css("--warm");
+        case "endurance": return css("--endurance");
+        case "free": return css("--free");
+        default: return css("--free");
+      }
+    }
+
+    function formatTime(sec){
+      sec = Math.max(0, Math.floor(sec));
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      if(h > 0){
+        return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+      }
+      return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+    }
+
+    function currentPhase(){
+      return state.currentProgram.phases[state.currentPhaseIndex];
+    }
+
+    function updateControls(){
+      if(state.isPaused){
+        pauseBtn.textContent = "RIPRENDI";
+        pauseBtn.style.background = css("--success");
+        pauseBtn.style.color = "#07110c";
+      }else{
+        pauseBtn.textContent = "PAUSA";
+        pauseBtn.style.background = css("--danger");
+        pauseBtn.style.color = "#ffffff";
+      }
+    }
+
+    function resetSession(){
+      state.currentPhaseIndex = 0;
+      state.phaseElapsed = 0;
+      state.totalElapsed = 0;
+      state.lastTs = 0;
+      state.metronomeStart = performance.now();
+    }
+
+    function resetUI(){
+      stopLoop();
+      state.currentProgram = null;
+      state.currentPhaseIndex = 0;
+      state.phaseElapsed = 0;
+      state.totalElapsed = 0;
+      state.lastTs = 0;
+      state.isPaused = false;
+      menuScreen.classList.remove("hidden");
+      workoutScreen.classList.add("hidden");
+      document.querySelectorAll(".menu-btn").forEach(btn => btn.blur());
+      updateControls();
+      clearCanvas();
+    }
+
+    function startWorkout(duration, type){
+      unlockAudio();
+      let program = Object.values(programs).find(p => p.duration === duration && p.type === type);
+      if(!program){
+        program = Object.values(programs).find(p => p.type === type) || programs["20 MIN - HIIT"];
+      }
+      state.currentProgram = structuredClone(program);
+      state.isPaused = false;
+      resetSession();
+      updateControls();
+      menuScreen.classList.add("hidden");
+      workoutScreen.classList.remove("hidden");
+      beep();
+      render();
+      startLoop();
+    }
+
+    function restartProgram(){
+      if(!state.currentProgram) return;
+      state.isPaused = false;
+      resetSession();
+      updateControls();
+      beep();
+      render();
+      startLoop();
+    }
+
+    function togglePause(){
+      if(!state.currentProgram) return;
+      state.isPaused = !state.isPaused;
+      updateControls();
+      if(state.isPaused){
+        stopLoop();
+      }else{
+        state.lastTs = 0;
+        startLoop();
+      }
+      render();
+    }
+
+    function startLoop(){
+      stopLoop();
+      if (!state.isPaused) {
+        state.rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    function stopLoop(){
+      if(state.rafId){
+        cancelAnimationFrame(state.rafId);
+        state.rafId = null;
+      }
+    }
+
+    function nextPhase(){
+      if(state.currentPhaseIndex < state.currentProgram.phases.length - 1){
+        state.currentPhaseIndex++;
+        state.phaseElapsed = 0;
+        state.metronomeStart = performance.now();
+        beep();
+        render();
+      } else {
+        state.isPaused = true;
+        updateControls();
+        stopLoop();
+        beep(880, 0.2);
+        render();
+      }
+    }
+
+    function tick(ts){
+      if(state.isPaused || !state.currentProgram) return;
+      if(!state.lastTs) state.lastTs = ts;
+      const dt = Math.min(0.25, (ts - state.lastTs) / 1000);
+      state.lastTs = ts;
+      state.phaseElapsed += dt;
+      state.totalElapsed += dt;
+      const phase = currentPhase();
+      if(state.phaseElapsed >= phase.duration){
+        nextPhase();
+      }
+      render();
+      if (!state.isPaused) {
+        state.rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    function render(){
+      if(!state.currentProgram){
+        clearCanvas();
+        return;
+      }
+      const phase = currentPhase();
+      const remaining = Math.max(0, phase.duration - state.phaseElapsed);
+      programLabel.textContent = state.currentProgram.name;
+      phaseLabel.textContent = state.isPaused ? "PAUSA" : phase.name;
+      phaseLabel.style.background = phaseColor(phase.type);
+      elapsedText.textContent = formatTime(state.totalElapsed);
+      remainingText.textContent = formatTime(remaining);
+      spmText.textContent = phase.spm;
+      metroSpm.textContent = `${phase.spm} SPM`;
+      updateMetronome(phase);
+      resizeCanvas();
+      drawTimerOnly(phase, remaining);
+    }
+
+    function resizeCanvas(){
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.max(1, Math.floor(rect.width * dpr));
+      const h = Math.max(1, Math.floor(rect.height * dpr));
+      if(canvas.width !== w || canvas.height !== h){
+        canvas.width = w;
+        canvas.height = h;
+      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+    }
+
+    function clearCanvas(){
+      resizeCanvas();
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+    }
+
+    function drawTimerOnly(phase, remaining){
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+      const cx = w / 2;
+      const cy = h / 2;
+      const radius = Math.max(
+        80,
+        Math.min(
+          w * 0.26,
+          h * 0.34,
+          window.innerWidth * 0.14,
+          window.innerHeight * 0.17
+        )
+      );
+      const ringWidth = Math.max(12, radius * 0.12);
+      const progress = Math.min(1, state.phaseElapsed / phase.duration);
+      const color = phaseColor(phase.type);
+
+      const glow = ctx.createRadialGradient(cx, cy, radius * 0.15, cx, cy, radius * 1.8);
+      glow.addColorStop(0, "rgba(255,255,255,0.06)");
+      glow.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 1.85, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.lineWidth = ringWidth;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "rgba(255,255,255,0.08)";
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, -Math.PI / 2, Math.PI * 1.5);
+      ctx.stroke();
+
+      ctx.strokeStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = radius * 0.22;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = "#f3f7fb";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = `900 ${Math.max(34, radius * 0.45)}px Arial`;
+      ctx.fillText(formatTime(remaining), cx, cy - radius * 0.02);
+
+      ctx.fillStyle = "rgba(243,247,251,0.74)";
+      ctx.font = `800 ${Math.max(18, radius * 0.14)}px Arial`;
+      ctx.fillText(state.isPaused ? "PAUSA" : phase.name, cx, cy + radius * 0.46);
+    }
+
+    function updateMetronome(phase){
+      const now = performance.now();
+      const beatMs = 60000 / Math.max(1, phase.spm);
+      const cycle = ((now - state.metronomeStart) % (beatMs * 2)) / (beatMs * 2);
+      const eased = 0.5 - 0.5 * Math.cos(cycle * Math.PI * 2);
+      metroDot.style.left = `${4 + eased * 92}%`;
+      metroDot.style.background = phaseColor(phase.type);
+      metroDot.style.boxShadow = `0 0 1.5rem ${phaseColor(phase.type)}88`;
+      const scale = 1 + 0.12 * Math.sin((now - state.metronomeStart) / beatMs * Math.PI * 2);
+      metroDot.style.transform = `translate(-50%, -50%) scale(${scale.toFixed(3)})`;
+    }
+
+    function unlockAudio(){
+      if(state.audioCtx) return;
+      try{
+        state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }catch(e){
+        console.warn("Audio non disponibile", e);
+      }
+    }
+
+    function beep(freq = 740, duration = 0.12){
+      if(!state.audioCtx) return;
+      if(state.audioCtx.state === "suspended"){
+        state.audioCtx.resume();
+      }
+      const t = state.audioCtx.currentTime;
+      const osc = state.audioCtx.createOscillator();
+      const gain = state.audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.22, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+      osc.connect(gain);
+      gain.connect(state.audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + duration + 0.02);
+    }
+
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const programName = btn.dataset.program;
+        const program = programs[programName];
+        startWorkout(program.duration, program.type);
+      });
+    });
+
+    pauseBtn.addEventListener("click", togglePause);
+    restartBtn.addEventListener("click", restartProgram);
+    menuBtn.addEventListener("click", () => {
+      window.location.reload();
+    });
+
+    window.addEventListener("resize", render);
+
+    window.addEventListener("keydown", (e) => {
+      if(e.code === "Space"){
+        e.preventDefault();
+        if(state.currentProgram) togglePause();
+      }
+      if(e.code === "Escape"){
+        e.preventDefault();
+        if(state.currentProgram){
+          window.location.reload();
+        }
+      }
+    });
+
+    document.addEventListener("click", unlockAudio, { passive:true });
+    document.addEventListener("touchstart", unlockAudio, { passive:true });
+
+    window.onload = () => {
+      resetUI();
+      updateControls();
+    };
+  </script>
+</body>
+</html>
