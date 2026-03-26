@@ -371,96 +371,160 @@ var perfNow = (function() {
   return function() { return new Date().getTime() - start; };
 })();
 
-// ─── AUDIO (inline WAV via HTML5 Audio - max compat) ───
-function generateWavDataUri(freq, dur, vol, sampleRate) {
-  sampleRate = sampleRate || 22050;
-  var numSamples = Math.round(sampleRate * dur);
-  var dataSize = numSamples * 2;
-  var fileSize = 44 + dataSize;
+// ─── AUDIO (dual engine: Web Audio API + HTML5 Audio fallback) ───
+// Engine A: Web Audio API (preferred, lower latency)
+var AudioCtx = window.AudioContext || window.webkitAudioContext || null;
+var audioCtx = null;
+var webAudioWorks = false;
 
-  // Build WAV header + data as byte array
-  var buf = new Array(fileSize);
-  var pos = 0;
+// Engine B: HTML5 Audio with pool (fallback)
+var htmlAudioWorks = false;
+var tickPool = [];
+var tickPoolSize = 4;
+var tickPoolIdx = 0;
+var beepPool1 = [];
+var beepPool2 = [];
+var beepPool3 = [];
 
-  function writeStr(s) { for (var i = 0; i < s.length; i++) buf[pos++] = s.charCodeAt(i); }
-  function write16(v) { buf[pos++] = v & 0xff; buf[pos++] = (v >> 8) & 0xff; }
-  function write32(v) { buf[pos++] = v & 0xff; buf[pos++] = (v >> 8) & 0xff; buf[pos++] = (v >> 16) & 0xff; buf[pos++] = (v >> 24) & 0xff; }
+// WAV generator for HTML5 Audio fallback
+function makeWav(freq, dur, vol) {
+  var sr = 22050;
+  var n = Math.round(sr * dur);
+  var ds = n * 2;
+  var fs = 44 + ds;
+  var b = [];
+  var p = 0;
 
-  writeStr('RIFF');
-  write32(fileSize - 8);
-  writeStr('WAVE');
-  writeStr('fmt ');
-  write32(16);
-  write16(1);
-  write16(1);
-  write32(sampleRate);
-  write32(sampleRate * 2);
-  write16(2);
-  write16(16);
-  writeStr('data');
-  write32(dataSize);
+  function ws(s) { for (var i = 0; i < s.length; i++) b[p++] = s.charCodeAt(i); }
+  function w2(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; }
+  function w4(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; b[p++] = (v >> 16) & 0xff; b[p++] = (v >> 24) & 0xff; }
 
-  for (var i = 0; i < numSamples; i++) {
-    var t = i / sampleRate;
-    var envelope = Math.max(0, 1.0 - (t / dur) * 2.5);
-    var sample = Math.sin(2 * Math.PI * freq * t) * vol * envelope;
-    var s16 = Math.max(-32768, Math.min(32767, Math.round(sample * 32767)));
-    write16(s16 < 0 ? s16 + 65536 : s16);
+  ws('RIFF'); w4(fs - 8); ws('WAVE');
+  ws('fmt '); w4(16); w2(1); w2(1); w4(sr); w4(sr * 2); w2(2); w2(16);
+  ws('data'); w4(ds);
+
+  for (var i = 0; i < n; i++) {
+    var t = i / sr;
+    var env = Math.max(0, 1.0 - (t / dur) * 2.5);
+    var s = Math.sin(2 * Math.PI * freq * t) * vol * env;
+    var v = Math.max(-32768, Math.min(32767, Math.round(s * 32767)));
+    w2(v < 0 ? v + 65536 : v);
   }
 
-  // Convert to base64
-  var binary = '';
-  for (var j = 0; j < buf.length; j++) {
-    binary += String.fromCharCode(buf[j]);
-  }
-  return 'data:audio/wav;base64,' + btoa(binary);
+  var bin = '';
+  for (var j = 0; j < b.length; j++) bin += String.fromCharCode(b[j]);
+  return 'data:audio/wav;base64,' + btoa(bin);
 }
 
-// Pre-generate audio elements
-var audioTick = null;
-var audioBeep1 = null;
-var audioBeep2 = null;
-var audioBeep3 = null;
+function makePool(uri, size) {
+  var pool = [];
+  for (var i = 0; i < size; i++) {
+    try {
+      var a = new Audio(uri);
+      a.load();
+      pool.push(a);
+    } catch(e) {}
+  }
+  return pool;
+}
+
+function playFromPool(pool) {
+  if (pool.length === 0) return;
+  var idx = 0;
+  // Find one that's not playing, or use round-robin
+  for (var i = 0; i < pool.length; i++) {
+    if (pool[i].paused || pool[i].ended) { idx = i; break; }
+    idx = (idx + 1) % pool.length;
+  }
+  try {
+    var a = pool[idx];
+    a.currentTime = 0;
+    a.play();
+  } catch(e) {}
+}
+
+// Web Audio tone generator
+function webAudioBeep(freq, dur, vol) {
+  if (!audioCtx) return;
+  try {
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.value = vol;
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(0);
+    osc.stop(audioCtx.currentTime + dur + 0.05);
+  } catch(e) {}
+}
+
 var audioReady = false;
 
 function ensureAudio() {
   if (audioReady) return;
   audioReady = true;
+
+  // Try Web Audio first
+  if (AudioCtx) {
+    try {
+      audioCtx = new AudioCtx();
+      // Test with a silent tone
+      var testOsc = audioCtx.createOscillator();
+      var testGain = audioCtx.createGain();
+      testGain.gain.value = 0;
+      testOsc.connect(testGain);
+      testGain.connect(audioCtx.destination);
+      testOsc.start(0);
+      testOsc.stop(audioCtx.currentTime + 0.01);
+      webAudioWorks = true;
+    } catch(e) {
+      webAudioWorks = false;
+      audioCtx = null;
+    }
+  }
+
+  // Also prepare HTML5 Audio pools as fallback (or primary if Web Audio fails)
   try {
-    var tickUri = generateWavDataUri(1200, 0.05, 0.25);
-    var beep1Uri = generateWavDataUri(660, 0.12, 0.5);
-    var beep2Uri = generateWavDataUri(880, 0.15, 0.6);
-    var beep3Uri = generateWavDataUri(1100, 0.18, 0.5);
+    var tickUri = makeWav(1200, 0.06, 0.35);
+    var b1Uri = makeWav(660, 0.12, 0.5);
+    var b2Uri = makeWav(880, 0.15, 0.6);
+    var b3Uri = makeWav(1100, 0.18, 0.5);
 
-    audioTick = new Audio(tickUri);
-    audioBeep1 = new Audio(beep1Uri);
-    audioBeep2 = new Audio(beep2Uri);
-    audioBeep3 = new Audio(beep3Uri);
+    tickPool = makePool(tickUri, tickPoolSize);
+    beepPool1 = makePool(b1Uri, 2);
+    beepPool2 = makePool(b2Uri, 2);
+    beepPool3 = makePool(b3Uri, 2);
 
-    // Preload
-    audioTick.load();
-    audioBeep1.load();
-    audioBeep2.load();
-    audioBeep3.load();
-  } catch(e) { audioReady = false; }
-}
-
-function playSound(audio) {
-  if (!audio) return;
-  try {
-    audio.currentTime = 0;
-    audio.play();
-  } catch(e) {}
-}
-
-function playPhaseChange() {
-  playSound(audioBeep1);
-  setTimeout(function() { playSound(audioBeep2); }, 130);
-  setTimeout(function() { playSound(audioBeep3); }, 280);
+    // Test: can we play?
+    if (tickPool.length > 0) {
+      htmlAudioWorks = true;
+    }
+  } catch(e) {
+    htmlAudioWorks = false;
+  }
 }
 
 function playMetronomeTick() {
-  playSound(audioTick);
+  if (webAudioWorks) {
+    webAudioBeep(1200, 0.05, 0.3);
+  } else if (htmlAudioWorks) {
+    playFromPool(tickPool);
+  }
+}
+
+function playPhaseChange() {
+  if (webAudioWorks) {
+    webAudioBeep(660, 0.1, 0.4);
+    setTimeout(function() { webAudioBeep(880, 0.12, 0.5); }, 130);
+    setTimeout(function() { webAudioBeep(1100, 0.15, 0.4); }, 280);
+  } else if (htmlAudioWorks) {
+    playFromPool(beepPool1);
+    setTimeout(function() { playFromPool(beepPool2); }, 130);
+    setTimeout(function() { playFromPool(beepPool3); }, 280);
+  }
 }
 
 // ─── PROGRAMS ───
@@ -583,7 +647,17 @@ function startProgram(key) {
   state.metronomePhase = 0;
   state.lastMetronomeBeat = 0;
 
-  setText('programTitle', state.program.title);
+  // Show audio engine status
+  var audioStatus = '';
+  if (webAudioWorks) {
+    audioStatus = 'Audio: ON';
+  } else if (htmlAudioWorks) {
+    audioStatus = 'Audio: ON';
+  } else {
+    audioStatus = 'Audio: OFF';
+  }
+
+  setText('programTitle', state.program.title + '  [' + audioStatus + ']');
   elMenu.style.display = 'none';
   elWorkout.style.display = 'block';
 
