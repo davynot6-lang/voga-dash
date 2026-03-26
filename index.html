@@ -5,354 +5,294 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rowing Dashboard</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg: #0a0c10;
-    --surface: #12151c;
-    --surface-2: #1a1e28;
-    --border: #252a36;
-    --text: #e8eaf0;
-    --text-dim: #7a8194;
-    --sprint: #ff3b4e;
-    --sprint-glow: rgba(255, 59, 78, 0.25);
-    --recovery: #00e676;
-    --recovery-glow: rgba(0, 230, 118, 0.25);
-    --warmup: #ffc107;
-    --warmup-glow: rgba(255, 193, 7, 0.25);
-    --cooldown: #42a5f5;
-    --cooldown-glow: rgba(66, 165, 245, 0.25);
-    --free: #b388ff;
-    --free-glow: rgba(179, 136, 255, 0.25);
-    --accent: #42a5f5;
-  }
+  * { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
   html, body {
-    width: 100%; height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
+    width: 100%;
+    height: 100%;
+    background: #0a0c10;
+    color: #e8eaf0;
+    font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
-    user-select: none;
     -webkit-user-select: none;
+    user-select: none;
   }
 
-  /* ── MENU SCREEN ── */
+  /* ── MENU ── */
   #menu-screen {
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-justify-content: center;
     justify-content: center;
-    height: 100vh;
-    gap: 2.5vmin;
-    padding: 4vmin;
-    animation: fadeIn 0.6s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    height: 100%;
+    padding: 30px;
   }
 
   .menu-title {
-    font-size: 6vmin;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 1vmin;
-    background: linear-gradient(135deg, var(--accent), #b388ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 48px;
+    font-weight: bold;
+    color: #42a5f5;
+    margin-bottom: 8px;
+    text-align: center;
   }
 
   .menu-subtitle {
-    font-size: 2.5vmin;
-    color: var(--text-dim);
-    margin-bottom: 3vmin;
-    font-weight: 300;
+    font-size: 22px;
+    color: #7a8194;
+    margin-bottom: 30px;
+    text-align: center;
   }
 
   .menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2vmin;
-    width: min(90vw, 900px);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: center;
+    max-width: 960px;
+    width: 100%;
   }
 
   .menu-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 1.5vmin;
-    padding: 3.5vmin 3vmin;
+    background: #12151c;
+    border: 2px solid #252a36;
+    border-radius: 12px;
+    padding: 28px 24px;
     cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 1vmin;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .menu-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    border-radius: inherit;
+    width: 46%;
+    margin: 8px;
+    display: block;
   }
 
   .menu-card:hover, .menu-card:focus {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    border-color: #42a5f5;
   }
 
-  .menu-card:hover::before { opacity: 1; }
-
-  .menu-card[data-program="hiit20"]::before  { background: linear-gradient(135deg, var(--sprint-glow), transparent 60%); }
-  .menu-card[data-program="hiit30"]::before  { background: linear-gradient(135deg, var(--sprint-glow), transparent 60%); }
-  .menu-card[data-program="endurance"]::before { background: linear-gradient(135deg, var(--recovery-glow), transparent 60%); }
-  .menu-card[data-program="free"]::before    { background: linear-gradient(135deg, var(--free-glow), transparent 60%); }
-
   .card-icon {
-    font-size: 4vmin;
-    margin-bottom: 0.5vmin;
+    font-size: 32px;
+    margin-bottom: 6px;
   }
 
   .card-title {
-    font-size: 3.2vmin;
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 6px;
   }
 
   .card-desc {
-    font-size: 1.8vmin;
-    color: var(--text-dim);
+    font-size: 16px;
+    color: #7a8194;
     line-height: 1.4;
+    margin-bottom: 8px;
   }
 
   .card-badge {
     display: inline-block;
-    padding: 0.4vmin 1.2vmin;
-    border-radius: 0.8vmin;
-    font-size: 1.5vmin;
-    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    margin-top: 0.5vmin;
-    align-self: flex-start;
   }
 
-  .badge-hiit    { background: rgba(255,59,78,0.15); color: var(--sprint); }
-  .badge-endur   { background: rgba(0,230,118,0.15); color: var(--recovery); }
-  .badge-free    { background: rgba(179,136,255,0.15); color: var(--free); }
+  .badge-hiit    { background: rgba(255,59,78,0.2); color: #ff3b4e; }
+  .badge-endur   { background: rgba(0,230,118,0.2); color: #00e676; }
+  .badge-free    { background: rgba(179,136,255,0.2); color: #b388ff; }
 
-  /* ── WORKOUT SCREEN ── */
+  /* ── WORKOUT ── */
   #workout-screen {
     display: none;
-    width: 100%; height: 100vh;
-    padding: 2vmin 3vmin;
+    width: 100%;
+    height: 100%;
+    padding: 16px 24px;
+    -webkit-flex-direction: column;
     flex-direction: column;
   }
 
   .top-bar {
+    display: -webkit-flex;
     display: flex;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
+    -webkit-align-items: center;
     align-items: center;
-    margin-bottom: 1.5vmin;
+    margin-bottom: 12px;
+    -webkit-flex-shrink: 0;
     flex-shrink: 0;
   }
 
   .program-name {
-    font-size: 3vmin;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-size: 26px;
+    font-weight: bold;
   }
 
   .top-bar-btns {
+    display: -webkit-flex;
     display: flex;
-    gap: 1.2vmin;
   }
 
   .btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 2vmin;
-    font-weight: 600;
-    padding: 1vmin 2.5vmin;
-    border-radius: 1vmin;
+    background: #12151c;
+    border: 2px solid #252a36;
+    color: #e8eaf0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 22px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    margin-left: 10px;
   }
 
-  .btn:hover { background: var(--surface-2); border-color: var(--accent); }
-  .btn-danger:hover { border-color: var(--sprint); color: var(--sprint); }
+  .btn:hover { border-color: #42a5f5; }
+  .btn-danger:hover { border-color: #ff3b4e; color: #ff3b4e; }
 
   .main-area {
+    -webkit-flex: 1;
     flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1.1fr 1fr;
-    gap: 2vmin;
+    display: -webkit-flex;
+    display: flex;
     min-height: 0;
   }
 
   .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 1.5vmin;
+    background: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 12px;
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-justify-content: center;
     justify-content: center;
-    padding: 2vmin;
+    padding: 16px;
     position: relative;
     overflow: hidden;
+    margin: 0 8px;
   }
 
-  /* Left Panel – Phase Info */
+  .panel-left, .panel-right { width: 30%; }
+  .panel-center { -webkit-flex: 1; flex: 1; padding: 8px; }
+
   .phase-label {
-    font-size: 2.2vmin;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 1vmin;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
   }
 
   .phase-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10vmin;
-    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 72px;
+    font-weight: bold;
     line-height: 1;
-    margin-bottom: 1.5vmin;
+    margin-bottom: 14px;
   }
 
   .phase-next {
-    font-size: 1.8vmin;
-    color: var(--text-dim);
+    font-size: 16px;
+    color: #7a8194;
     text-align: center;
   }
 
   .phase-indicator {
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 4px;
-    border-radius: 0 0 2px 2px;
-    transition: background 0.4s ease;
   }
 
-  /* Center Panel – Canvas */
-  .center-panel {
-    padding: 1vmin;
-  }
+  #mainCanvas { width: 100%; height: 100%; display: block; }
 
-  #mainCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+  .stats-grid { width: 100%; text-align: center; }
 
-  /* Right Panel – Stats */
-  .stats-grid {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 2vmin;
-    padding: 1vmin;
-  }
-
-  .stat-item {
-    text-align: center;
-  }
+  .stat-item { margin-bottom: 18px; }
 
   .stat-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 5.5vmin;
-    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 42px;
+    font-weight: bold;
     line-height: 1;
   }
 
   .stat-label {
-    font-size: 1.8vmin;
-    color: var(--text-dim);
+    font-size: 15px;
+    color: #7a8194;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.5vmin;
+    letter-spacing: 1px;
+    margin-top: 4px;
   }
 
-  /* Bottom Phase Timeline */
   .timeline-bar {
+    -webkit-flex-shrink: 0;
     flex-shrink: 0;
-    margin-top: 1.5vmin;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 1vmin;
-    padding: 1.2vmin 2vmin;
+    margin-top: 12px;
+    background: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: -webkit-flex;
     display: flex;
-    gap: 3px;
-    height: 5vmin;
-    align-items: stretch;
+    height: 40px;
   }
 
-  .timeline-seg {
-    border-radius: 4px;
-    transition: opacity 0.3s;
-    position: relative;
-  }
+  .timeline-seg { border-radius: 3px; margin-right: 2px; }
+  .timeline-seg-past { opacity: 0.3; }
 
-  .timeline-seg.past { opacity: 0.3; }
-  .timeline-seg.current { box-shadow: 0 0 12px rgba(255,255,255,0.15); }
-
-  /* Metronome Pulse Overlay */
   .metronome-flash {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.08s ease;
     z-index: 100;
   }
 
-  /* Responsive for smaller screens */
-  @media (max-width: 800px) {
-    .main-area {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr auto;
-    }
-    .menu-grid { grid-template-columns: 1fr; }
+  @media (min-width: 1200px) {
+    .menu-card { padding: 36px 32px; }
+    .card-title { font-size: 30px; }
+    .card-desc { font-size: 18px; }
+    .phase-time { font-size: 80px; }
+    .stat-value { font-size: 48px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ── MENU ── -->
+<!-- MENU -->
 <div id="menu-screen">
   <div class="menu-title">ROWING DASHBOARD</div>
   <div class="menu-subtitle">Scegli il programma di allenamento</div>
   <div class="menu-grid">
-    <div class="menu-card" data-program="hiit20" tabindex="0" onclick="startProgram('hiit20')">
-      <div class="card-icon">⚡</div>
+    <div class="menu-card" id="card-hiit20" tabindex="0">
+      <div class="card-icon">&#9889;</div>
       <div class="card-title">20 min HIIT</div>
-      <div class="card-desc">Riscaldamento → Sprint / Recupero × 8 → Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensità</div>
+      <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
+      <div class="card-badge badge-hiit">Alta Intensita</div>
     </div>
-    <div class="menu-card" data-program="hiit30" tabindex="0" onclick="startProgram('hiit30')">
-      <div class="card-icon">🔥</div>
+    <div class="menu-card" id="card-hiit30" tabindex="0">
+      <div class="card-icon">&#128293;</div>
       <div class="card-title">30 min HIIT</div>
-      <div class="card-desc">Riscaldamento → Sprint / Recupero × 12 → Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensità</div>
+      <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
+      <div class="card-badge badge-hiit">Alta Intensita</div>
     </div>
-    <div class="menu-card" data-program="endurance" tabindex="0" onclick="startProgram('endurance')">
-      <div class="card-icon">🌊</div>
+    <div class="menu-card" id="card-endurance" tabindex="0">
+      <div class="card-icon">&#127754;</div>
       <div class="card-title">45 min Endurance</div>
       <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </div>
-    <div class="menu-card" data-program="free" tabindex="0" onclick="startProgram('free')">
-      <div class="card-icon">🎯</div>
+    <div class="menu-card" id="card-free" tabindex="0">
+      <div class="card-icon">&#127919;</div>
       <div class="card-title">Libero</div>
       <div class="card-desc">Nessun timer. Crono e SPM target regolabile manualmente</div>
       <div class="card-badge badge-free">Freestyle</div>
@@ -360,34 +300,28 @@
   </div>
 </div>
 
-<!-- ── WORKOUT ── -->
+<!-- WORKOUT -->
 <div id="workout-screen">
   <div class="top-bar">
-    <div class="program-name" id="programTitle">—</div>
+    <div class="program-name" id="programTitle">&mdash;</div>
     <div class="top-bar-btns">
-      <button class="btn" id="btnPause" onclick="togglePause()">⏸ Pausa</button>
-      <button class="btn" id="btnSpmUp" onclick="adjustSpm(2)" style="display:none;">SPM +</button>
-      <button class="btn" id="btnSpmDown" onclick="adjustSpm(-2)" style="display:none;">SPM −</button>
-      <button class="btn btn-danger" onclick="stopWorkout()">✕ Esci</button>
+      <button class="btn" id="btnPause">&#9208; Pausa</button>
+      <button class="btn" id="btnSpmUp" style="display:none;">SPM +</button>
+      <button class="btn" id="btnSpmDown" style="display:none;">SPM -</button>
+      <button class="btn btn-danger" id="btnStop">&#10005; Esci</button>
     </div>
   </div>
-
   <div class="main-area">
-    <!-- Left: Phase -->
-    <div class="panel" id="phasePanel">
+    <div class="panel panel-left" id="phasePanel">
       <div class="phase-indicator" id="phaseIndicator"></div>
-      <div class="phase-label" id="phaseLabel">—</div>
+      <div class="phase-label" id="phaseLabel">&mdash;</div>
       <div class="phase-time" id="phaseTime">0:00</div>
       <div class="phase-next" id="phaseNext"></div>
     </div>
-
-    <!-- Center: Canvas -->
-    <div class="panel center-panel">
+    <div class="panel panel-center">
       <canvas id="mainCanvas"></canvas>
     </div>
-
-    <!-- Right: Stats -->
-    <div class="panel">
+    <div class="panel panel-right">
       <div class="stats-grid">
         <div class="stat-item">
           <div class="stat-value" id="statTotal">00:00</div>
@@ -408,55 +342,83 @@
       </div>
     </div>
   </div>
-
   <div class="timeline-bar" id="timeline"></div>
 </div>
 
 <div class="metronome-flash" id="metronomeFlash"></div>
 
 <script>
+/* =============================================
+   ES5 ONLY — WebOS 1.4 / Chromium ~34 compat
+   No: const, let, arrow =>, template ``, 
+       padStart, roundRect, classList.toggle(x,bool),
+       dataset, CSS var(), inset, gap
+   ============================================= */
+
+// padStart polyfill
+if (!String.prototype.padStart) {
+  String.prototype.padStart = function(len, ch) {
+    var s = String(this);
+    ch = ch || ' ';
+    while (s.length < len) { s = ch + s; }
+    return s;
+  };
+}
+
 // ─── AUDIO ───
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let audioCtx;
+var AudioCtx = window.AudioContext || window.webkitAudioContext;
+var audioCtx = null;
+
 function ensureAudio() {
-  if (!audioCtx) audioCtx = new AudioCtx();
+  if (!audioCtx) { audioCtx = new AudioCtx(); }
 }
-function playBeep(freq = 880, dur = 0.12, vol = 0.35) {
-  ensureAudio();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'sine';
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-  osc.connect(gain).connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + dur);
+
+function playBeep(freq, dur, vol) {
+  freq = freq || 880;
+  dur = dur || 0.12;
+  vol = vol || 0.35;
+  try {
+    ensureAudio();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + dur);
+  } catch (e) { /* silent fail on old browsers */ }
 }
+
 function playPhaseChange() {
   playBeep(660, 0.1, 0.4);
-  setTimeout(() => playBeep(880, 0.15, 0.5), 120);
-  setTimeout(() => playBeep(1100, 0.2, 0.4), 260);
+  setTimeout(function() { playBeep(880, 0.15, 0.5); }, 120);
+  setTimeout(function() { playBeep(1100, 0.2, 0.4); }, 260);
 }
+
 function playMetronomeTick() {
   playBeep(1200, 0.03, 0.12);
 }
 
 // ─── PROGRAMS ───
 function buildHIIT(totalMin, rounds) {
-  const phases = [];
+  var phases = [];
   phases.push({ name: 'Riscaldamento', duration: 120, type: 'warmup', spm: 22 });
-  for (let i = 0; i < rounds; i++) {
+  for (var i = 0; i < rounds; i++) {
     phases.push({ name: 'Sprint', duration: 60, type: 'sprint', spm: 28 });
     phases.push({ name: 'Recupero', duration: 60, type: 'recovery', spm: 20 });
   }
-  // fill remaining with cooldown
-  const used = 120 + rounds * 120;
-  const cooldown = totalMin * 60 - used;
-  if (cooldown > 0) phases.push({ name: 'Defaticamento', duration: cooldown, type: 'cooldown', spm: 20 });
+  var used = 120 + rounds * 120;
+  var cooldown = totalMin * 60 - used;
+  if (cooldown > 0) {
+    phases.push({ name: 'Defaticamento', duration: cooldown, type: 'cooldown', spm: 20 });
+  }
   return phases;
 }
 
-const PROGRAMS = {
+var PROGRAMS = {
   hiit20: { title: '20 min HIIT', phases: buildHIIT(20, 8) },
   hiit30: { title: '30 min HIIT', phases: buildHIIT(30, 12) },
   endurance: {
@@ -467,14 +429,14 @@ const PROGRAMS = {
       { name: 'Incremento 1', duration: 600, type: 'recovery', spm: 26 },
       { name: 'Incremento 2', duration: 600, type: 'sprint', spm: 28 },
       { name: 'Picco', duration: 300, type: 'sprint', spm: 30 },
-      { name: 'Defaticamento', duration: 300, type: 'cooldown', spm: 20 },
+      { name: 'Defaticamento', duration: 300, type: 'cooldown', spm: 20 }
     ]
   },
   free: { title: 'Libero', phases: [{ name: 'Sessione Libera', duration: Infinity, type: 'free', spm: 24 }] }
 };
 
 // ─── STATE ───
-let state = {
+var state = {
   running: false,
   paused: false,
   program: null,
@@ -484,31 +446,50 @@ let state = {
   freeSpm: 24,
   lastTick: 0,
   metronomePhase: 0,
-  lastMetronomeBeat: 0,
+  lastMetronomeBeat: 0
 };
 
-// ─── DOM ───
-const $menu = document.getElementById('menu-screen');
-const $workout = document.getElementById('workout-screen');
-const $canvas = document.getElementById('mainCanvas');
-const ctx = $canvas.getContext('2d');
-const $flash = document.getElementById('metronomeFlash');
+// ─── DOM REFS ───
+var elMenu = document.getElementById('menu-screen');
+var elWorkout = document.getElementById('workout-screen');
+var elCanvas = document.getElementById('mainCanvas');
+var ctx = elCanvas.getContext('2d');
+var elFlash = document.getElementById('metronomeFlash');
 
-// ─── COLOR HELPERS ───
+// ─── HELPERS ───
 function typeColor(type) {
-  const m = { sprint: '#ff3b4e', recovery: '#00e676', warmup: '#ffc107', cooldown: '#42a5f5', free: '#b388ff' };
-  return m[type] || '#b388ff';
+  if (type === 'sprint') return '#ff3b4e';
+  if (type === 'recovery') return '#00e676';
+  if (type === 'warmup') return '#ffc107';
+  if (type === 'cooldown') return '#42a5f5';
+  return '#b388ff';
 }
-function typeGlow(type) {
-  const m = {
-    sprint: 'rgba(255,59,78,0.25)', recovery: 'rgba(0,230,118,0.25)',
-    warmup: 'rgba(255,193,7,0.25)', cooldown: 'rgba(66,165,245,0.25)', free: 'rgba(179,136,255,0.25)'
-  };
-  return m[type] || 'rgba(179,136,255,0.25)';
-}
+
 function typeName(type) {
-  const m = { sprint: 'SPRINT', recovery: 'RECUPERO', warmup: 'RISCALDAMENTO', cooldown: 'DEFATICAMENTO', free: 'LIBERO' };
-  return m[type] || type.toUpperCase();
+  if (type === 'sprint') return 'SPRINT';
+  if (type === 'recovery') return 'RECUPERO';
+  if (type === 'warmup') return 'RISCALDAMENTO';
+  if (type === 'cooldown') return 'DEFATICAMENTO';
+  return 'LIBERO';
+}
+
+function fmt(s) {
+  var sec = Math.max(0, Math.floor(s));
+  var m = Math.floor(sec / 60);
+  var ss = (sec % 60).toString().padStart(2, '0');
+  return m + ':' + ss;
+}
+
+function fmtLong(s) {
+  var sec = Math.max(0, Math.floor(s));
+  var m = Math.floor(sec / 60).toString().padStart(2, '0');
+  var ss = (sec % 60).toString().padStart(2, '0');
+  return m + ':' + ss;
+}
+
+function showFlex(el) {
+  el.style.display = '-webkit-flex';
+  el.style.display = 'flex';
 }
 
 // ─── START / STOP ───
@@ -526,12 +507,13 @@ function startProgram(key) {
   state.lastMetronomeBeat = 0;
 
   document.getElementById('programTitle').textContent = state.program.title;
-  $menu.style.display = 'none';
-  $workout.style.display = 'flex';
+  elMenu.style.display = 'none';
+  showFlex(elWorkout);
 
-  const isFree = key === 'free';
-  document.getElementById('btnSpmUp').style.display = isFree ? '' : 'none';
-  document.getElementById('btnSpmDown').style.display = isFree ? '' : 'none';
+  var isFree = (key === 'free');
+  document.getElementById('btnSpmUp').style.display = isFree ? 'inline-block' : 'none';
+  document.getElementById('btnSpmDown').style.display = isFree ? 'inline-block' : 'none';
+  document.getElementById('btnPause').textContent = '\u23F8 Pausa';
 
   buildTimeline();
   playPhaseChange();
@@ -549,10 +531,9 @@ function stopWorkout() {
   state.lastMetronomeBeat = 0;
   state.freeSpm = 24;
 
-  // Reset UI elements
-  document.getElementById('btnPause').textContent = '⏸ Pausa';
-  document.getElementById('programTitle').textContent = '—';
-  document.getElementById('phaseLabel').textContent = '—';
+  document.getElementById('btnPause').textContent = '\u23F8 Pausa';
+  document.getElementById('programTitle').textContent = '\u2014';
+  document.getElementById('phaseLabel').textContent = '\u2014';
   document.getElementById('phaseLabel').style.color = '';
   document.getElementById('phaseTime').textContent = '0:00';
   document.getElementById('phaseTime').style.color = '';
@@ -565,21 +546,21 @@ function stopWorkout() {
   document.getElementById('timeline').innerHTML = '';
   document.getElementById('btnSpmUp').style.display = 'none';
   document.getElementById('btnSpmDown').style.display = 'none';
-  $flash.style.opacity = 0;
+  elFlash.style.opacity = '0';
 
   // Clear canvas
-  const dpr = window.devicePixelRatio || 1;
+  var dpr = window.devicePixelRatio || 1;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const rect = $canvas.getBoundingClientRect();
+  var rect = elCanvas.getBoundingClientRect();
   ctx.clearRect(0, 0, rect.width, rect.height);
 
-  $workout.style.display = 'none';
-  $menu.style.display = 'flex';
+  elWorkout.style.display = 'none';
+  showFlex(elMenu);
 }
 
 function togglePause() {
   state.paused = !state.paused;
-  document.getElementById('btnPause').textContent = state.paused ? '▶ Riprendi' : '⏸ Pausa';
+  document.getElementById('btnPause').textContent = state.paused ? '\u25B6 Riprendi' : '\u23F8 Pausa';
   if (!state.paused) {
     state.lastTick = performance.now();
     requestAnimationFrame(tick);
@@ -590,71 +571,74 @@ function adjustSpm(d) {
   state.freeSpm = Math.max(16, Math.min(36, state.freeSpm + d));
 }
 
+// ─── EVENTS (addEventListener, no inline onclick) ───
+document.getElementById('card-hiit20').addEventListener('click', function() { startProgram('hiit20'); }, false);
+document.getElementById('card-hiit30').addEventListener('click', function() { startProgram('hiit30'); }, false);
+document.getElementById('card-endurance').addEventListener('click', function() { startProgram('endurance'); }, false);
+document.getElementById('card-free').addEventListener('click', function() { startProgram('free'); }, false);
+document.getElementById('btnPause').addEventListener('click', function() { togglePause(); }, false);
+document.getElementById('btnStop').addEventListener('click', function() { stopWorkout(); }, false);
+document.getElementById('btnSpmUp').addEventListener('click', function() { adjustSpm(2); }, false);
+document.getElementById('btnSpmDown').addEventListener('click', function() { adjustSpm(-2); }, false);
+
+document.addEventListener('keydown', function(e) {
+  var code = e.keyCode || e.which;
+  if (code === 32) { e.preventDefault(); if (state.running) togglePause(); }
+  if (code === 27 && state.running) stopWorkout();
+  if (code === 38) adjustSpm(2);
+  if (code === 40) adjustSpm(-2);
+}, false);
+
 // ─── TIMELINE ───
 function buildTimeline() {
-  const $tl = document.getElementById('timeline');
-  $tl.innerHTML = '';
-  const phases = state.program.phases;
-  const totalDur = phases.reduce((s, p) => s + (isFinite(p.duration) ? p.duration : 0), 0);
-  if (totalDur === 0) {
-    $tl.style.display = 'none';
-    return;
+  var el = document.getElementById('timeline');
+  el.innerHTML = '';
+  var phases = state.program.phases;
+  var totalDur = 0;
+  var i;
+  for (i = 0; i < phases.length; i++) {
+    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
   }
-  $tl.style.display = '';
-  phases.forEach((p, i) => {
-    if (!isFinite(p.duration)) return;
-    const seg = document.createElement('div');
+  if (totalDur === 0) { el.style.display = 'none'; return; }
+  showFlex(el);
+  for (i = 0; i < phases.length; i++) {
+    if (!isFinite(phases[i].duration)) continue;
+    var seg = document.createElement('div');
     seg.className = 'timeline-seg';
-    seg.style.flex = (p.duration / totalDur);
-    seg.style.background = typeColor(p.type);
-    seg.dataset.idx = i;
-    $tl.appendChild(seg);
-  });
+    var ratio = phases[i].duration / totalDur;
+    seg.style.cssText = '-webkit-flex:' + ratio + ';flex:' + ratio + ';background:' + typeColor(phases[i].type) + ';';
+    seg.setAttribute('data-idx', i.toString());
+    el.appendChild(seg);
+  }
 }
 
 function updateTimeline() {
-  document.querySelectorAll('.timeline-seg').forEach(seg => {
-    const idx = parseInt(seg.dataset.idx);
-    seg.classList.toggle('past', idx < state.phaseIndex);
-    seg.classList.toggle('current', idx === state.phaseIndex);
-  });
-}
-
-// ─── FORMAT ───
-function fmt(s) {
-  const sec = Math.max(0, Math.floor(s));
-  const m = Math.floor(sec / 60);
-  const ss = sec % 60;
-  return `${m}:${ss.toString().padStart(2, '0')}`;
-}
-function fmtLong(s) {
-  const sec = Math.max(0, Math.floor(s));
-  const m = Math.floor(sec / 60);
-  const ss = sec % 60;
-  return `${m.toString().padStart(2, '0')}:${ss.toString().padStart(2, '0')}`;
+  var segs = document.querySelectorAll('.timeline-seg');
+  for (var i = 0; i < segs.length; i++) {
+    var idx = parseInt(segs[i].getAttribute('data-idx'), 10);
+    segs[i].className = (idx < state.phaseIndex) ? 'timeline-seg timeline-seg-past' : 'timeline-seg';
+  }
 }
 
 // ─── TICK ───
 function tick(now) {
   if (!state.running || state.paused) return;
 
-  const dt = (now - state.lastTick) / 1000;
+  var dt = (now - state.lastTick) / 1000;
   state.lastTick = now;
   state.totalElapsed += dt;
 
-  const phases = state.program.phases;
-  const phase = phases[state.phaseIndex];
+  var phases = state.program.phases;
+  var phase = phases[state.phaseIndex];
 
   if (isFinite(phase.duration)) {
     state.phaseElapsed += dt;
     if (state.phaseElapsed >= phase.duration) {
-      // Next phase
       state.phaseElapsed = 0;
       state.phaseIndex++;
       if (state.phaseIndex >= phases.length) {
-        // Workout done
         playPhaseChange();
-        setTimeout(() => { alert('Allenamento completato!'); stopWorkout(); }, 200);
+        setTimeout(function() { alert('Allenamento completato!'); stopWorkout(); }, 200);
         return;
       }
       playPhaseChange();
@@ -664,20 +648,17 @@ function tick(now) {
   }
 
   // Metronome
-  const spm = phase.type === 'free' ? state.freeSpm : phase.spm;
-  const beatInterval = 60 / spm;
-  const halfBeat = beatInterval / 2;
-  const prevPhase = state.metronomePhase;
+  var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
+  var beatInterval = 60 / spm;
+  var halfBeat = beatInterval / 2;
+  var prevMet = state.metronomePhase;
   state.metronomePhase += dt;
 
-  // Tick at full beat (right extremity)
   if (state.metronomePhase >= beatInterval) {
     state.metronomePhase -= beatInterval;
     state.lastMetronomeBeat = now;
     playMetronomeTick();
-  }
-  // Tick at half beat (left extremity)
-  else if (prevPhase < halfBeat && state.metronomePhase >= halfBeat) {
+  } else if (prevMet < halfBeat && state.metronomePhase >= halfBeat) {
     state.lastMetronomeBeat = now;
     playMetronomeTick();
   }
@@ -689,66 +670,68 @@ function tick(now) {
 
 // ─── UI UPDATE ───
 function updateUI(now) {
-  const phases = state.program.phases;
-  const phase = phases[state.phaseIndex];
-  const color = typeColor(phase.type);
-  const remaining = isFinite(phase.duration) ? phase.duration - state.phaseElapsed : state.phaseElapsed;
+  var phases = state.program.phases;
+  var phase = phases[state.phaseIndex];
+  var color = typeColor(phase.type);
 
-  // Phase panel
   document.getElementById('phaseLabel').textContent = phase.name;
   document.getElementById('phaseLabel').style.color = color;
-  document.getElementById('phaseTime').textContent = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
+
+  var phaseTimeStr = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
+  document.getElementById('phaseTime').textContent = phaseTimeStr;
   document.getElementById('phaseTime').style.color = color;
   document.getElementById('phaseIndicator').style.background = color;
 
-  // Next phase
-  const next = phases[state.phaseIndex + 1];
-  document.getElementById('phaseNext').textContent = next ? `Prossima: ${next.name} (${fmt(next.duration)})` : 'Ultima fase';
+  var next = phases[state.phaseIndex + 1];
+  document.getElementById('phaseNext').textContent = next ? ('Prossima: ' + next.name + ' (' + fmt(next.duration) + ')') : 'Ultima fase';
 
-  // Stats
   document.getElementById('statTotal').textContent = fmtLong(state.totalElapsed);
-  const totalDur = phases.reduce((s, p) => s + (isFinite(p.duration) ? p.duration : 0), 0);
-  document.getElementById('statRemaining').textContent = totalDur > 0 ? fmtLong(totalDur - state.totalElapsed) : '--:--';
-  const spm = phase.type === 'free' ? state.freeSpm : phase.spm;
-  document.getElementById('statSpm').textContent = spm;
-  document.getElementById('statPhaseNum').textContent = `${state.phaseIndex + 1}/${phases.length}`;
 
-  // Metronome flash
-  const beatAge = (now - state.lastMetronomeBeat) / 1000;
-  const flashOpacity = Math.max(0, 0.06 - beatAge * 0.5);
-  $flash.style.opacity = flashOpacity;
-  $flash.style.background = color;
+  var totalDur = 0;
+  for (var i = 0; i < phases.length; i++) {
+    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
+  }
+  document.getElementById('statRemaining').textContent = (totalDur > 0) ? fmtLong(totalDur - state.totalElapsed) : '--:--';
+
+  var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
+  document.getElementById('statSpm').textContent = spm.toString();
+  document.getElementById('statPhaseNum').textContent = (state.phaseIndex + 1) + '/' + phases.length;
+
+  var beatAge = (now - state.lastMetronomeBeat) / 1000;
+  var flashOp = Math.max(0, 0.06 - beatAge * 0.5);
+  elFlash.style.opacity = flashOp.toString();
+  elFlash.style.background = color;
 
   updateTimeline();
 }
 
 // ─── CANVAS ───
 function drawCanvas(now) {
-  const dpr = window.devicePixelRatio || 1;
-  const rect = $canvas.getBoundingClientRect();
-  if ($canvas.width !== rect.width * dpr || $canvas.height !== rect.height * dpr) {
-    $canvas.width = rect.width * dpr;
-    $canvas.height = rect.height * dpr;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = elCanvas.getBoundingClientRect();
+  var cw = Math.round(rect.width * dpr);
+  var ch = Math.round(rect.height * dpr);
+  if (elCanvas.width !== cw || elCanvas.height !== ch) {
+    elCanvas.width = cw;
+    elCanvas.height = ch;
   }
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const W = rect.width;
-  const H = rect.height;
+  var W = rect.width;
+  var H = rect.height;
   ctx.clearRect(0, 0, W, H);
 
-  const phases = state.program.phases;
-  const phase = phases[state.phaseIndex];
-  const color = typeColor(phase.type);
-  const glow = typeGlow(phase.type);
-  const spm = phase.type === 'free' ? state.freeSpm : phase.spm;
+  var phases = state.program.phases;
+  var phase = phases[state.phaseIndex];
+  var color = typeColor(phase.type);
+  var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
 
-  const cx = W / 2;
-  const cy = H * 0.42;
-  const R = Math.min(W, H) * 0.32;
+  var cx = W / 2;
+  var cy = H * 0.42;
+  var R = Math.min(W, H) * 0.32;
 
-  // ── Arc progress ──
-  const progress = isFinite(phase.duration) ? state.phaseElapsed / phase.duration : (state.phaseElapsed % 60) / 60;
+  var progress = isFinite(phase.duration) ? (state.phaseElapsed / phase.duration) : ((state.phaseElapsed % 60) / 60);
 
-  // Track
+  // Track ring
   ctx.beginPath();
   ctx.arc(cx, cy, R, 0, Math.PI * 2);
   ctx.lineWidth = R * 0.1;
@@ -756,88 +739,65 @@ function drawCanvas(now) {
   ctx.stroke();
 
   // Progress arc
-  const startA = -Math.PI / 2;
-  const endA = startA + Math.PI * 2 * progress;
+  var startA = -Math.PI / 2;
+  var endA = startA + Math.PI * 2 * progress;
   ctx.beginPath();
   ctx.arc(cx, cy, R, startA, endA);
   ctx.lineWidth = R * 0.1;
   ctx.lineCap = 'round';
   ctx.strokeStyle = color;
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 20;
   ctx.stroke();
-  ctx.shadowBlur = 0;
 
-  // Center text
+  // Center time
+  var timeText = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
   ctx.fillStyle = color;
-  ctx.font = `800 ${R * 0.5}px 'JetBrains Mono', monospace`;
+  ctx.font = 'bold ' + Math.round(R * 0.5) + 'px Courier New, monospace';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const timeText = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
   ctx.fillText(timeText, cx, cy - R * 0.05);
 
+  // Phase name
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  ctx.font = `600 ${R * 0.16}px 'Outfit', sans-serif`;
+  ctx.font = 'bold ' + Math.round(R * 0.16) + 'px Arial, sans-serif';
   ctx.fillText(typeName(phase.type), cx, cy + R * 0.3);
 
-  // ── Metronome visual ──
-  const metY = H * 0.85;
-  const beatInterval = 60 / spm;
-  const beatProgress = state.metronomePhase / beatInterval;
+  // ── Metronome ──
+  var metY = H * 0.85;
+  var beatInterval = 60 / spm;
+  var beatProgress = state.metronomePhase / beatInterval;
 
-  // Pendulum bar
-  const barW = W * 0.7;
-  const barX = (W - barW) / 2;
+  // Bar (simple rect, no roundRect)
+  var barW = W * 0.7;
+  var barX = (W - barW) / 2;
   ctx.fillStyle = 'rgba(255,255,255,0.05)';
-  ctx.beginPath();
-  ctx.roundRect(barX, metY - 4, barW, 8, 4);
-  ctx.fill();
+  ctx.fillRect(barX, metY - 4, barW, 8);
 
   // Tick marks
-  const numTicks = 11;
-  for (let i = 0; i <= numTicks - 1; i++) {
-    const x = barX + (barW * i) / (numTicks - 1);
-    ctx.fillStyle = i === Math.floor(numTicks / 2) ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)';
-    ctx.fillRect(x - 1, metY - 10, 2, 20);
+  var numTicks = 11;
+  for (var t = 0; t < numTicks; t++) {
+    var tx = barX + (barW * t) / (numTicks - 1);
+    ctx.fillStyle = (t === 5) ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)';
+    ctx.fillRect(tx - 1, metY - 10, 2, 20);
   }
 
-  // Pendulum dot – oscillates across full bar
-  const swing = Math.cos(beatProgress * Math.PI * 2);
-  const dotX = cx + swing * barW * 0.5;
-  const beatAge = (now - state.lastMetronomeBeat) / 1000;
-  const dotScale = 1 + Math.max(0, 0.5 - beatAge * 4);
-  const dotR = 10 * dotScale;
+  // Pendulum dot – full bar
+  var swing = Math.cos(beatProgress * Math.PI * 2);
+  var dotX = cx + swing * barW * 0.5;
+  var beatAge = (now - state.lastMetronomeBeat) / 1000;
+  var dotScale = 1 + Math.max(0, 0.5 - beatAge * 4);
+  var dotR = 10 * dotScale;
 
   ctx.beginPath();
   ctx.arc(dotX, metY, dotR, 0, Math.PI * 2);
   ctx.fillStyle = color;
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 15;
   ctx.fill();
-  ctx.shadowBlur = 0;
 
   // SPM label
   ctx.fillStyle = 'rgba(255,255,255,0.4)';
-  ctx.font = `600 ${Math.min(W, H) * 0.04}px 'Outfit', sans-serif`;
+  ctx.font = 'bold ' + Math.round(Math.min(W, H) * 0.04) + 'px Arial, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(`${spm} SPM`, cx, metY + 30);
+  ctx.fillText(spm + ' SPM', cx, metY + 30);
 }
-
-// ─── RESIZE ───
-window.addEventListener('resize', () => {
-  if (state.running && !state.paused) return; // canvas auto-resizes on next tick
-});
-
-// ─── KEYBOARD ───
-document.addEventListener('keydown', e => {
-  if (e.code === 'Space') {
-    e.preventDefault();
-    if (state.running) togglePause();
-  }
-  if (e.code === 'Escape' && state.running) stopWorkout();
-  if (e.code === 'ArrowUp') adjustSpm(2);
-  if (e.code === 'ArrowDown') adjustSpm(-2);
-});
 </script>
 </body>
 </html>
