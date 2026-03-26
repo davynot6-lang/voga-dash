@@ -19,7 +19,7 @@
     cursor: default;
   }
 
-  a, button, div, span, canvas, input {
+  a, button, div, span, canvas, td, table {
     -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
     outline: none;
   }
@@ -27,119 +27,240 @@
   /* ── MENU ── */
   #menu-screen {
     display: block;
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     text-align: center;
     padding-top: 3%;
-    overflow-y: auto;
   }
-  .menu-title { font-size: 36px; font-weight: bold; color: #42a5f5; margin-bottom: 4px; }
-  .menu-subtitle { font-size: 18px; color: #7a8194; margin-bottom: 14px; }
-  .menu-grid { display: inline-block; width: 90%; max-width: 880px; text-align: left; }
-  .menu-card {
-    display: inline-block; vertical-align: top;
-    width: 47%; margin: 1%;
-    background-color: #12151c; border: 2px solid #252a36; border-radius: 10px;
-    padding: 14px 18px; cursor: pointer; text-decoration: none; color: #e8eaf0;
-    min-height: 110px;
+
+  .menu-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #42a5f5;
+    margin-bottom: 4px;
   }
-  .menu-card:hover, .menu-card:focus { border-color: #42a5f5; }
-  .card-title { font-size: 20px; font-weight: bold; margin-bottom: 4px; }
-  .card-desc { font-size: 13px; color: #7a8194; line-height: 1.3; margin-bottom: 5px; }
-  .card-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
-  .badge-hiit  { background-color: #3a1520; color: #ff3b4e; }
-  .badge-endur { background-color: #0a2a18; color: #00e676; }
-  .badge-free  { background-color: #1e1530; color: #b388ff; }
+
+  .menu-subtitle {
+    font-size: 18px;
+    color: #7a8194;
+    margin-bottom: 14px;
+  }
+
+  /* Table layout for equal-height cards */
+  .menu-table {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 880px;
+    border-spacing: 10px;
+    border-collapse: separate;
+  }
+
+  .menu-table td {
+    width: 50%;
+    background-color: #12151c;
+    border: 2px solid #252a36;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    color: #e8eaf0;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .menu-table td:hover, .menu-table td:focus {
+    border-color: #42a5f5;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: #7a8194;
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+
+  .card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .badge-hiit    { background-color: #3a1520; color: #ff3b4e; }
+  .badge-endur   { background-color: #0a2a18; color: #00e676; }
+  .badge-free    { background-color: #1e1530; color: #b388ff; }
 
   /* ── WORKOUT ── */
-  #workout-screen { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+  #workout-screen {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
 
+  /* Top bar */
   .top-bar {
-    position: absolute; top: 0; left: 0; right: 0; height: 46px;
-    padding: 6px 16px; background-color: #0a0c10; border-bottom: 1px solid #252a36;
-    overflow: hidden;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    padding: 10px 20px;
+    background-color: #0a0c10;
+    border-bottom: 1px solid #252a36;
   }
-  .program-name { float: left; font-size: 18px; font-weight: bold; line-height: 32px; }
-  .top-bar-btns { float: right; line-height: 32px; }
+
+  .program-name {
+    float: left;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 36px;
+  }
+
+  .top-bar-btns {
+    float: right;
+  }
+
   .btn {
-    display: inline-block; background-color: #12151c; border: 2px solid #252a36;
-    color: #e8eaf0; font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px; font-weight: bold; padding: 5px 14px; border-radius: 6px;
-    cursor: pointer; margin-left: 6px; vertical-align: middle; text-decoration: none;
-    line-height: 20px;
+    display: inline-block;
+    background-color: #12151c;
+    border: 2px solid #252a36;
+    color: #e8eaf0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 8px;
+    vertical-align: middle;
+    text-decoration: none;
   }
-  .btn:hover, .btn:focus { border-color: #42a5f5; }
+
+  .btn:hover, .btn:focus { border-color: #42a5f5; outline: none; }
   .btn-danger:hover { border-color: #ff3b4e; color: #ff3b4e; }
 
-  /* 3-column layout */
+  /* 3-column layout via absolute positioning */
   .col-left {
-    position: absolute; top: 52px; left: 10px; width: 28%; bottom: 46px;
+    position: absolute;
+    top: 62px; left: 12px; width: 28%; bottom: 52px;
     background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
-    text-align: center; padding-top: 8%; overflow: hidden;
+    text-align: center; padding-top: 10%;
   }
-  .col-center {
-    position: absolute; top: 52px; left: 29.5%; right: 29.5%; bottom: 46px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px; overflow: hidden;
-  }
-  .col-right {
-    position: absolute; top: 52px; right: 10px; width: 28%; bottom: 46px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
-    text-align: center; padding-top: 5%; overflow: hidden;
-  }
-  .phase-indicator { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
-  .phase-label { font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-  .phase-time { font-family: 'Courier New', Courier, monospace; font-size: 56px; font-weight: bold; line-height: 1; margin-bottom: 10px; }
-  .phase-next { font-size: 13px; color: #7a8194; padding: 0 8px; }
-  #mainCanvas { width: 100%; height: 100%; display: block; }
-  .stat-item { margin-bottom: 12px; }
-  .stat-value { font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: bold; line-height: 1; }
-  .stat-label { font-size: 12px; color: #7a8194; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-  .timeline-bar {
-    position: absolute; bottom: 6px; left: 10px; right: 10px; height: 32px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 6px;
-    padding: 7px 10px; overflow: hidden; white-space: nowrap; font-size: 0;
+  .col-center {
+    position: absolute;
+    top: 62px; left: 29.5%; right: 29.5%; bottom: 52px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
+    overflow: hidden;
   }
-  .timeline-seg { display: inline-block; height: 100%; border-radius: 3px; margin-right: 2px; vertical-align: top; }
+
+  .col-right {
+    position: absolute;
+    top: 62px; right: 12px; width: 28%; bottom: 52px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
+    text-align: center; padding-top: 6%;
+  }
+
+  .phase-indicator {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .phase-label {
+    font-size: 18px; font-weight: bold;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .phase-time {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 60px; font-weight: bold;
+    line-height: 1; margin-bottom: 12px;
+  }
+
+  .phase-next {
+    font-size: 14px; color: #7a8194; padding: 0 10px;
+  }
+
+  #mainCanvas { width: 100%; height: 100%; display: block; }
+
+  .stat-item { margin-bottom: 14px; }
+
+  .stat-value {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 36px; font-weight: bold; line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 13px; color: #7a8194;
+    text-transform: uppercase; letter-spacing: 1px; margin-top: 3px;
+  }
+
+  /* Timeline */
+  .timeline-bar {
+    position: absolute;
+    bottom: 8px; left: 12px; right: 12px; height: 34px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 6px;
+    padding: 8px 12px; overflow: hidden; white-space: nowrap; font-size: 0;
+  }
+
+  .timeline-seg {
+    display: inline-block; height: 100%;
+    border-radius: 3px; margin-right: 2px; vertical-align: top;
+  }
+
   .timeline-seg-past { opacity: 0.3; }
+
+  .metronome-flash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; opacity: 0; z-index: 100;
+  }
+
+  /* clearfix */
   .clearfix:after { content: ""; display: table; clear: both; }
 
   /* ── RESPONSIVE: Large TV 1400px+ ── */
   @media screen and (min-width: 1400px) {
     .menu-title { font-size: 48px; }
-    .menu-subtitle { font-size: 22px; }
+    .menu-subtitle { font-size: 22px; margin-bottom: 20px; }
+    .menu-table { border-spacing: 14px; }
+    .menu-table td { padding: 20px 24px; }
     .card-title { font-size: 26px; }
     .card-desc { font-size: 16px; }
     .card-badge { font-size: 13px; padding: 3px 10px; }
-    .menu-card { padding: 20px 24px; min-height: 140px; }
-    .top-bar { height: 54px; padding: 8px 20px; }
-    .program-name { font-size: 24px; line-height: 36px; }
-    .btn { font-size: 17px; padding: 8px 20px; line-height: 22px; }
-    .col-left { top: 60px; }
-    .col-center { top: 60px; }
-    .col-right { top: 60px; }
+    .program-name { font-size: 26px; }
+    .btn { font-size: 18px; padding: 10px 22px; }
     .phase-label { font-size: 22px; }
     .phase-time { font-size: 72px; }
     .phase-next { font-size: 16px; }
     .stat-value { font-size: 44px; }
-    .stat-label { font-size: 14px; }
-    .stat-item { margin-bottom: 16px; }
+    .stat-label { font-size: 15px; }
+    .stat-item { margin-bottom: 18px; }
   }
 
-  /* ── RESPONSIVE: Narrow < 900px (tablet portrait, small monitor) ── */
+  /* ── RESPONSIVE: Narrow < 900px ── */
   @media screen and (max-width: 900px) {
     #menu-screen { padding-top: 4%; }
     .menu-title { font-size: 28px; }
     .menu-subtitle { font-size: 15px; margin-bottom: 10px; }
-    .menu-card { width: 96%; margin: 1% 1%; padding: 12px 14px; min-height: 0; }
+    .menu-table { width: 96%; border-spacing: 6px; }
+    .menu-table td { padding: 10px 14px; }
     .card-title { font-size: 18px; }
     .card-desc { font-size: 12px; }
 
-    .top-bar { height: 42px; padding: 5px 10px; }
-    .btn { font-size: 12px; padding: 5px 10px; margin-left: 4px; line-height: 18px; }
-    .program-name { font-size: 15px; line-height: 30px; }
+    .top-bar { height: 46px; padding: 7px 12px; }
+    .program-name { font-size: 16px; line-height: 30px; }
+    .btn { font-size: 13px; padding: 6px 12px; margin-left: 4px; }
 
     .col-left {
-      position: absolute; top: 48px; left: 8px; right: 8px; width: auto;
+      position: absolute; top: 50px; left: 8px; right: 8px; width: auto;
       height: 20%; bottom: auto; padding-top: 2%;
     }
     .col-center {
@@ -162,7 +283,7 @@
   @media screen and (max-width: 500px) {
     .menu-title { font-size: 22px; }
     .menu-subtitle { font-size: 13px; }
-    .menu-card { padding: 10px 12px; }
+    .menu-table td { padding: 8px 10px; }
     .card-title { font-size: 16px; }
     .card-desc { font-size: 11px; }
     .phase-time { font-size: 28px; }
@@ -176,7 +297,7 @@
     #menu-screen { padding-top: 1%; }
     .menu-title { font-size: 22px; margin-bottom: 2px; }
     .menu-subtitle { font-size: 13px; margin-bottom: 6px; }
-    .menu-card { padding: 8px 12px; margin: 0.5%; }
+    .menu-table td { padding: 6px 10px; }
     .card-title { font-size: 15px; margin-bottom: 2px; }
     .card-desc { font-size: 11px; margin-bottom: 3px; }
     .card-badge { font-size: 9px; padding: 1px 6px; }
@@ -189,28 +310,32 @@
 <div id="menu-screen">
   <div class="menu-title">ROWING DASHBOARD</div>
   <div class="menu-subtitle">Scegli il programma di allenamento</div>
-  <div class="menu-grid">
-    <a class="menu-card" id="card-hiit20" href="javascript:void(0)" tabindex="1">
-      <div class="card-title">&#9889; 20 min HIIT</div>
-      <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensita</div>
-    </a>
-    <a class="menu-card" id="card-hiit30" href="javascript:void(0)" tabindex="2">
-      <div class="card-title">&#128293; 30 min HIIT</div>
-      <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensita</div>
-    </a>
-    <a class="menu-card" id="card-endurance" href="javascript:void(0)" tabindex="3">
-      <div class="card-title">&#127754; 45 min Endurance</div>
-      <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
-      <div class="card-badge badge-endur">Resistenza</div>
-    </a>
-    <a class="menu-card" id="card-free" href="javascript:void(0)" tabindex="4">
-      <div class="card-title">&#127919; Libero</div>
-      <div class="card-desc">Nessun timer. Crono e SPM target regolabile</div>
-      <div class="card-badge badge-free">Freestyle</div>
-    </a>
-  </div>
+  <table class="menu-table">
+    <tr>
+      <td id="card-hiit20" tabindex="1">
+        <div class="card-title">&#9889; 20 min HIIT</div>
+        <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
+        <div class="card-badge badge-hiit">Alta Intensita</div>
+      </td>
+      <td id="card-hiit30" tabindex="2">
+        <div class="card-title">&#128293; 30 min HIIT</div>
+        <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
+        <div class="card-badge badge-hiit">Alta Intensita</div>
+      </td>
+    </tr>
+    <tr>
+      <td id="card-endurance" tabindex="3">
+        <div class="card-title">&#127754; 45 min Endurance</div>
+        <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
+        <div class="card-badge badge-endur">Resistenza</div>
+      </td>
+      <td id="card-free" tabindex="4">
+        <div class="card-title">&#127919; Libero</div>
+        <div class="card-desc">Nessun timer. Crono e SPM target regolabile</div>
+        <div class="card-badge badge-free">Freestyle</div>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <!-- WORKOUT -->
@@ -224,15 +349,18 @@
       <button class="btn btn-danger" id="btnStop" type="button">Esci</button>
     </div>
   </div>
+
   <div class="col-left" id="phasePanel">
     <div class="phase-indicator" id="phaseIndicator"></div>
     <div class="phase-label" id="phaseLabel">&mdash;</div>
     <div class="phase-time" id="phaseTime">0:00</div>
     <div class="phase-next" id="phaseNext"></div>
   </div>
+
   <div class="col-center">
     <canvas id="mainCanvas"></canvas>
   </div>
+
   <div class="col-right">
     <div class="stat-item">
       <div class="stat-value" id="statTotal">00:00</div>
@@ -251,8 +379,11 @@
       <div class="stat-label">Fase</div>
     </div>
   </div>
+
   <div class="timeline-bar" id="timeline"></div>
 </div>
+
+<div class="metronome-flash" id="metronomeFlash"></div>
 
 <script>
 /* ES5 ONLY — WebOS 1.4 compat */
@@ -286,8 +417,7 @@ var beepPool3 = [];
 function makeWav(freq, dur, vol) {
   var sr = 22050;
   var n = Math.round(sr * dur);
-  var ds = n * 2;
-  var fs = 44 + ds;
+  var ds = n * 2; var fs = 44 + ds;
   var b = []; var p = 0;
   function ws(s) { for (var i = 0; i < s.length; i++) b[p++] = s.charCodeAt(i); }
   function w2(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; }
@@ -422,6 +552,7 @@ var elMenu = document.getElementById('menu-screen');
 var elWorkout = document.getElementById('workout-screen');
 var elCanvas = document.getElementById('mainCanvas');
 var ctx = elCanvas.getContext('2d');
+var elFlash = document.getElementById('metronomeFlash');
 
 // ─── HELPERS ───
 function typeColor(t) {
@@ -492,6 +623,7 @@ function stopWorkout() {
   document.getElementById('timeline').innerHTML = '';
   document.getElementById('btnSpmUp').style.display = 'none';
   document.getElementById('btnSpmDown').style.display = 'none';
+  elFlash.style.opacity = '0';
   try { ctx.clearRect(0, 0, canvasW, canvasH); } catch(e) {}
   elWorkout.style.display = 'none';
   elMenu.style.display = 'block';
@@ -659,21 +791,17 @@ function drawCanvas(now) {
   var phase = phases[state.phaseIndex];
   var color = typeColor(phase.type);
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
-
   var cx = W / 2, cy = H * 0.42;
   var R = Math.min(W, H) * 0.30;
   var progress = isFinite(phase.duration) ? (state.phaseElapsed / phase.duration) : ((state.phaseElapsed % 60) / 60);
 
-  // Track
   ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
   ctx.lineWidth = R * 0.1; ctx.strokeStyle = '#1a1e28'; ctx.stroke();
 
-  // Progress arc
   var startA = -Math.PI / 2;
   ctx.beginPath(); ctx.arc(cx, cy, R, startA, startA + Math.PI * 2 * progress);
   ctx.lineWidth = R * 0.1; ctx.lineCap = 'round'; ctx.strokeStyle = color; ctx.stroke();
 
-  // Center time
   ctx.fillStyle = color;
   ctx.font = 'bold ' + Math.round(R * 0.45) + 'px Courier New, monospace';
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -683,7 +811,6 @@ function drawCanvas(now) {
   ctx.font = 'bold ' + Math.round(R * 0.14) + 'px Arial, sans-serif';
   ctx.fillText(typeName(phase.type), cx, cy + R * 0.28);
 
-  // Metronome
   var metY = H * 0.84;
   var barW = W * 0.65, barX = (W - barW) / 2;
   ctx.fillStyle = '#1a1e28'; ctx.fillRect(barX, metY - 3, barW, 6);
