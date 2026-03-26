@@ -8,20 +8,12 @@
   * { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
   html, body {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     background-color: #0a0c10;
     color: #e8eaf0;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
-    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    cursor: default;
-  }
-
-  a, button, div, span, canvas, td, table {
-    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-    outline: none;
   }
 
   /* ── MENU ── */
@@ -46,29 +38,30 @@
     margin-bottom: 14px;
   }
 
-  /* Table layout for equal-height cards */
-  .menu-table {
-    margin: 0 auto;
+  .menu-grid {
+    display: inline-block;
     width: 90%;
     max-width: 880px;
-    border-spacing: 10px;
-    border-collapse: separate;
+    text-align: left;
   }
 
-  .menu-table td {
-    width: 50%;
+  .menu-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 47%;
+    margin: 1%;
     background-color: #12151c;
     border: 2px solid #252a36;
     border-radius: 10px;
     padding: 14px 18px;
     cursor: pointer;
+    text-decoration: none;
     color: #e8eaf0;
-    vertical-align: top;
-    text-align: left;
   }
 
-  .menu-table td:hover, .menu-table td:focus {
+  .menu-card:hover, .menu-card:focus {
     border-color: #42a5f5;
+    outline: none;
   }
 
   .card-title {
@@ -147,23 +140,40 @@
   /* 3-column layout via absolute positioning */
   .col-left {
     position: absolute;
-    top: 62px; left: 12px; width: 28%; bottom: 52px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
-    text-align: center; padding-top: 10%;
+    top: 62px;
+    left: 12px;
+    width: 28%;
+    bottom: 52px;
+    background-color: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 10%;
   }
 
   .col-center {
     position: absolute;
-    top: 62px; left: 29.5%; right: 29.5%; bottom: 52px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
+    top: 62px;
+    left: 29.5%;
+    right: 29.5%;
+    bottom: 52px;
+    background-color: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 10px;
     overflow: hidden;
   }
 
   .col-right {
     position: absolute;
-    top: 62px; right: 12px; width: 28%; bottom: 52px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
-    text-align: center; padding-top: 6%;
+    top: 62px;
+    right: 12px;
+    width: 28%;
+    bottom: 52px;
+    background-color: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 6%;
   }
 
   .phase-indicator {
@@ -173,46 +183,74 @@
   }
 
   .phase-label {
-    font-size: 18px; font-weight: bold;
-    text-transform: uppercase; letter-spacing: 2px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     margin-bottom: 10px;
   }
 
   .phase-time {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 60px; font-weight: bold;
-    line-height: 1; margin-bottom: 12px;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 12px;
   }
 
   .phase-next {
-    font-size: 14px; color: #7a8194; padding: 0 10px;
+    font-size: 14px;
+    color: #7a8194;
+    padding: 0 10px;
   }
 
-  #mainCanvas { width: 100%; height: 100%; display: block; }
+  #mainCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 
-  .stat-item { margin-bottom: 14px; }
+  .stat-item {
+    margin-bottom: 14px;
+  }
 
   .stat-value {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 36px; font-weight: bold; line-height: 1;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1;
   }
 
   .stat-label {
-    font-size: 13px; color: #7a8194;
-    text-transform: uppercase; letter-spacing: 1px; margin-top: 3px;
+    font-size: 13px;
+    color: #7a8194;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 3px;
   }
 
   /* Timeline */
   .timeline-bar {
     position: absolute;
-    bottom: 8px; left: 12px; right: 12px; height: 34px;
-    background-color: #12151c; border: 1px solid #252a36; border-radius: 6px;
-    padding: 8px 12px; overflow: hidden; white-space: nowrap; font-size: 0;
+    bottom: 8px;
+    left: 12px;
+    right: 12px;
+    height: 34px;
+    background-color: #12151c;
+    border: 1px solid #252a36;
+    border-radius: 6px;
+    padding: 8px 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
   }
 
   .timeline-seg {
-    display: inline-block; height: 100%;
-    border-radius: 3px; margin-right: 2px; vertical-align: top;
+    display: inline-block;
+    height: 100%;
+    border-radius: 3px;
+    margin-right: 2px;
+    vertical-align: top;
   }
 
   .timeline-seg-past { opacity: 0.3; }
@@ -220,88 +258,13 @@
   .metronome-flash {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none; opacity: 0; z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 100;
   }
 
   /* clearfix */
   .clearfix:after { content: ""; display: table; clear: both; }
-
-  /* ── RESPONSIVE: Large TV 1400px+ ── */
-  @media screen and (min-width: 1400px) {
-    .menu-title { font-size: 48px; }
-    .menu-subtitle { font-size: 22px; margin-bottom: 20px; }
-    .menu-table { border-spacing: 14px; }
-    .menu-table td { padding: 20px 24px; }
-    .card-title { font-size: 26px; }
-    .card-desc { font-size: 16px; }
-    .card-badge { font-size: 13px; padding: 3px 10px; }
-    .program-name { font-size: 26px; }
-    .btn { font-size: 18px; padding: 10px 22px; }
-    .phase-label { font-size: 22px; }
-    .phase-time { font-size: 72px; }
-    .phase-next { font-size: 16px; }
-    .stat-value { font-size: 44px; }
-    .stat-label { font-size: 15px; }
-    .stat-item { margin-bottom: 18px; }
-  }
-
-  /* ── RESPONSIVE: Narrow < 900px ── */
-  @media screen and (max-width: 900px) {
-    #menu-screen { padding-top: 4%; }
-    .menu-title { font-size: 28px; }
-    .menu-subtitle { font-size: 15px; margin-bottom: 10px; }
-    .menu-table { width: 96%; border-spacing: 6px; }
-    .menu-table td { padding: 10px 14px; }
-    .card-title { font-size: 18px; }
-    .card-desc { font-size: 12px; }
-
-    .top-bar { height: 46px; padding: 7px 12px; }
-    .program-name { font-size: 16px; line-height: 30px; }
-    .btn { font-size: 13px; padding: 6px 12px; margin-left: 4px; }
-
-    .col-left {
-      position: absolute; top: 50px; left: 8px; right: 8px; width: auto;
-      height: 20%; bottom: auto; padding-top: 2%;
-    }
-    .col-center {
-      position: absolute; top: 24%; left: 8px; right: 8px; bottom: 26%;
-    }
-    .col-right {
-      position: absolute; bottom: 36px; left: 8px; right: 8px; width: auto;
-      height: 18%; top: auto; padding-top: 1%;
-    }
-    .col-right .stat-item { display: inline-block; width: 24%; margin-bottom: 4px; }
-
-    .phase-time { font-size: 36px; margin-bottom: 6px; }
-    .phase-label { font-size: 14px; margin-bottom: 4px; }
-    .stat-value { font-size: 22px; }
-    .stat-label { font-size: 10px; }
-    .timeline-bar { height: 28px; bottom: 4px; padding: 6px 8px; }
-  }
-
-  /* ── RESPONSIVE: Phone < 500px ── */
-  @media screen and (max-width: 500px) {
-    .menu-title { font-size: 22px; }
-    .menu-subtitle { font-size: 13px; }
-    .menu-table td { padding: 8px 10px; }
-    .card-title { font-size: 16px; }
-    .card-desc { font-size: 11px; }
-    .phase-time { font-size: 28px; }
-    .stat-value { font-size: 18px; }
-    .btn { font-size: 11px; padding: 5px 8px; }
-    .program-name { font-size: 14px; }
-  }
-
-  /* ── RESPONSIVE: Short landscape ── */
-  @media screen and (max-height: 500px) {
-    #menu-screen { padding-top: 1%; }
-    .menu-title { font-size: 22px; margin-bottom: 2px; }
-    .menu-subtitle { font-size: 13px; margin-bottom: 6px; }
-    .menu-table td { padding: 6px 10px; }
-    .card-title { font-size: 15px; margin-bottom: 2px; }
-    .card-desc { font-size: 11px; margin-bottom: 3px; }
-    .card-badge { font-size: 9px; padding: 1px 6px; }
-  }
 </style>
 </head>
 <body>
@@ -310,32 +273,28 @@
 <div id="menu-screen">
   <div class="menu-title">ROWING DASHBOARD</div>
   <div class="menu-subtitle">Scegli il programma di allenamento</div>
-  <table class="menu-table">
-    <tr>
-      <td id="card-hiit20" tabindex="1">
-        <div class="card-title">&#9889; 20 min HIIT</div>
-        <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
-        <div class="card-badge badge-hiit">Alta Intensita</div>
-      </td>
-      <td id="card-hiit30" tabindex="2">
-        <div class="card-title">&#128293; 30 min HIIT</div>
-        <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
-        <div class="card-badge badge-hiit">Alta Intensita</div>
-      </td>
-    </tr>
-    <tr>
-      <td id="card-endurance" tabindex="3">
-        <div class="card-title">&#127754; 45 min Endurance</div>
-        <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
-        <div class="card-badge badge-endur">Resistenza</div>
-      </td>
-      <td id="card-free" tabindex="4">
-        <div class="card-title">&#127919; Libero</div>
-        <div class="card-desc">Nessun timer. Crono e SPM target regolabile</div>
-        <div class="card-badge badge-free">Freestyle</div>
-      </td>
-    </tr>
-  </table>
+  <div class="menu-grid">
+    <a class="menu-card" id="card-hiit20" href="javascript:void(0)" tabindex="1">
+      <div class="card-title">&#9889; 20 min HIIT</div>
+      <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
+      <div class="card-badge badge-hiit">Alta Intensita</div>
+    </a>
+    <a class="menu-card" id="card-hiit30" href="javascript:void(0)" tabindex="2">
+      <div class="card-title">&#128293; 30 min HIIT</div>
+      <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
+      <div class="card-badge badge-hiit">Alta Intensita</div>
+    </a>
+    <a class="menu-card" id="card-endurance" href="javascript:void(0)" tabindex="3">
+      <div class="card-title">&#127754; 45 min Endurance</div>
+      <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
+      <div class="card-badge badge-endur">Resistenza</div>
+    </a>
+    <a class="menu-card" id="card-free" href="javascript:void(0)" tabindex="4">
+      <div class="card-title">&#127919; Libero</div>
+      <div class="card-desc">Nessun timer. Crono e SPM target regolabile</div>
+      <div class="card-badge badge-free">Freestyle</div>
+    </a>
+  </div>
 </div>
 
 <!-- WORKOUT -->
@@ -386,11 +345,19 @@
 <div class="metronome-flash" id="metronomeFlash"></div>
 
 <script>
-/* ES5 ONLY — WebOS 1.4 compat */
+/* =============================================
+   ES5 ONLY — WebOS 1.4 / old Chromium
+   No: const, let, =>, template ``, padStart,
+       roundRect, classList.toggle, dataset,
+       CSS var(), flex, inset, gap,
+       performance.now (polyfilled)
+   ============================================= */
 
+// ─── POLYFILLS ───
 if (!String.prototype.padStart) {
   String.prototype.padStart = function(len, ch) {
-    var s = String(this); ch = ch || ' ';
+    var s = String(this);
+    ch = ch || ' ';
     while (s.length < len) { s = ch + s; }
     return s;
   };
@@ -404,27 +371,38 @@ var perfNow = (function() {
   return function() { return new Date().getTime() - start; };
 })();
 
-// ─── AUDIO (dual engine) ───
+// ─── AUDIO (dual engine: Web Audio API + HTML5 Audio fallback) ───
+// Engine A: Web Audio API (preferred, lower latency)
 var AudioCtx = window.AudioContext || window.webkitAudioContext || null;
 var audioCtx = null;
 var webAudioWorks = false;
+
+// Engine B: HTML5 Audio with pool (fallback)
 var htmlAudioWorks = false;
 var tickPool = [];
+var tickPoolSize = 4;
+var tickPoolIdx = 0;
 var beepPool1 = [];
 var beepPool2 = [];
 var beepPool3 = [];
 
+// WAV generator for HTML5 Audio fallback
 function makeWav(freq, dur, vol) {
   var sr = 22050;
   var n = Math.round(sr * dur);
-  var ds = n * 2; var fs = 44 + ds;
-  var b = []; var p = 0;
+  var ds = n * 2;
+  var fs = 44 + ds;
+  var b = [];
+  var p = 0;
+
   function ws(s) { for (var i = 0; i < s.length; i++) b[p++] = s.charCodeAt(i); }
   function w2(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; }
   function w4(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; b[p++] = (v >> 16) & 0xff; b[p++] = (v >> 24) & 0xff; }
+
   ws('RIFF'); w4(fs - 8); ws('WAVE');
   ws('fmt '); w4(16); w2(1); w2(1); w4(sr); w4(sr * 2); w2(2); w2(16);
   ws('data'); w4(ds);
+
   for (var i = 0; i < n; i++) {
     var t = i / sr;
     var env = Math.max(0, 1.0 - (t / dur) * 2.5);
@@ -432,6 +410,7 @@ function makeWav(freq, dur, vol) {
     var v = Math.max(-32768, Math.min(32767, Math.round(s * 32767)));
     w2(v < 0 ? v + 65536 : v);
   }
+
   var bin = '';
   for (var j = 0; j < b.length; j++) bin += String.fromCharCode(b[j]);
   return 'data:audio/wav;base64,' + btoa(bin);
@@ -440,7 +419,11 @@ function makeWav(freq, dur, vol) {
 function makePool(uri, size) {
   var pool = [];
   for (var i = 0; i < size; i++) {
-    try { var a = new Audio(uri); a.load(); pool.push(a); } catch(e) {}
+    try {
+      var a = new Audio(uri);
+      a.load();
+      pool.push(a);
+    } catch(e) {}
   }
   return pool;
 }
@@ -448,52 +431,88 @@ function makePool(uri, size) {
 function playFromPool(pool) {
   if (pool.length === 0) return;
   var idx = 0;
+  // Find one that's not playing, or use round-robin
   for (var i = 0; i < pool.length; i++) {
     if (pool[i].paused || pool[i].ended) { idx = i; break; }
     idx = (idx + 1) % pool.length;
   }
-  try { pool[idx].currentTime = 0; pool[idx].play(); } catch(e) {}
+  try {
+    var a = pool[idx];
+    a.currentTime = 0;
+    a.play();
+  } catch(e) {}
 }
 
+// Web Audio tone generator
 function webAudioBeep(freq, dur, vol) {
   if (!audioCtx) return;
   try {
     var osc = audioCtx.createOscillator();
     var gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.value = freq;
+    osc.type = 'sine';
+    osc.frequency.value = freq;
     gain.gain.value = vol;
     gain.gain.setValueAtTime(vol, audioCtx.currentTime);
     gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.start(0); osc.stop(audioCtx.currentTime + dur + 0.05);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(0);
+    osc.stop(audioCtx.currentTime + dur + 0.05);
   } catch(e) {}
 }
 
 var audioReady = false;
+
 function ensureAudio() {
   if (audioReady) return;
   audioReady = true;
+
+  // Try Web Audio first
   if (AudioCtx) {
     try {
       audioCtx = new AudioCtx();
-      var to = audioCtx.createOscillator(); var tg = audioCtx.createGain();
-      tg.gain.value = 0; to.connect(tg); tg.connect(audioCtx.destination);
-      to.start(0); to.stop(audioCtx.currentTime + 0.01);
+      // Test with a silent tone
+      var testOsc = audioCtx.createOscillator();
+      var testGain = audioCtx.createGain();
+      testGain.gain.value = 0;
+      testOsc.connect(testGain);
+      testGain.connect(audioCtx.destination);
+      testOsc.start(0);
+      testOsc.stop(audioCtx.currentTime + 0.01);
       webAudioWorks = true;
-    } catch(e) { webAudioWorks = false; audioCtx = null; }
+    } catch(e) {
+      webAudioWorks = false;
+      audioCtx = null;
+    }
   }
+
+  // Also prepare HTML5 Audio pools as fallback (or primary if Web Audio fails)
   try {
-    tickPool = makePool(makeWav(1200, 0.06, 0.35), 4);
-    beepPool1 = makePool(makeWav(660, 0.12, 0.5), 2);
-    beepPool2 = makePool(makeWav(880, 0.15, 0.6), 2);
-    beepPool3 = makePool(makeWav(1100, 0.18, 0.5), 2);
-    if (tickPool.length > 0) htmlAudioWorks = true;
-  } catch(e) { htmlAudioWorks = false; }
+    var tickUri = makeWav(1200, 0.06, 0.35);
+    var b1Uri = makeWav(660, 0.12, 0.5);
+    var b2Uri = makeWav(880, 0.15, 0.6);
+    var b3Uri = makeWav(1100, 0.18, 0.5);
+
+    tickPool = makePool(tickUri, tickPoolSize);
+    beepPool1 = makePool(b1Uri, 2);
+    beepPool2 = makePool(b2Uri, 2);
+    beepPool3 = makePool(b3Uri, 2);
+
+    // Test: can we play?
+    if (tickPool.length > 0) {
+      htmlAudioWorks = true;
+    }
+  } catch(e) {
+    htmlAudioWorks = false;
+  }
 }
 
 function playMetronomeTick() {
-  if (webAudioWorks) webAudioBeep(1200, 0.05, 0.3);
-  else if (htmlAudioWorks) playFromPool(tickPool);
+  if (webAudioWorks) {
+    webAudioBeep(1200, 0.05, 0.3);
+  } else if (htmlAudioWorks) {
+    playFromPool(tickPool);
+  }
 }
 
 function playPhaseChange() {
@@ -517,8 +536,10 @@ function buildHIIT(totalMin, rounds) {
     phases.push({ name: 'Recupero', duration: 60, type: 'recovery', spm: 20 });
   }
   var used = 120 + rounds * 120;
-  var cd = totalMin * 60 - used;
-  if (cd > 0) phases.push({ name: 'Defaticamento', duration: cd, type: 'cooldown', spm: 20 });
+  var cooldown = totalMin * 60 - used;
+  if (cooldown > 0) {
+    phases.push({ name: 'Defaticamento', duration: cooldown, type: 'cooldown', spm: 20 });
+  }
   return phases;
 }
 
@@ -541,10 +562,16 @@ var PROGRAMS = {
 
 // ─── STATE ───
 var state = {
-  running: false, paused: false, program: null,
-  phaseIndex: 0, phaseElapsed: 0, totalElapsed: 0,
-  freeSpm: 24, lastTick: 0, metronomePhase: 0, lastMetronomeBeat: 0,
-  lastUIUpdate: 0
+  running: false,
+  paused: false,
+  program: null,
+  phaseIndex: 0,
+  phaseElapsed: 0,
+  totalElapsed: 0,
+  freeSpm: 24,
+  lastTick: 0,
+  metronomePhase: 0,
+  lastMetronomeBeat: 0
 };
 
 // ─── DOM ───
@@ -555,44 +582,82 @@ var ctx = elCanvas.getContext('2d');
 var elFlash = document.getElementById('metronomeFlash');
 
 // ─── HELPERS ───
-function typeColor(t) {
-  if (t === 'sprint') return '#ff3b4e';
-  if (t === 'recovery') return '#00e676';
-  if (t === 'warmup') return '#ffc107';
-  if (t === 'cooldown') return '#42a5f5';
+function typeColor(type) {
+  if (type === 'sprint') return '#ff3b4e';
+  if (type === 'recovery') return '#00e676';
+  if (type === 'warmup') return '#ffc107';
+  if (type === 'cooldown') return '#42a5f5';
   return '#b388ff';
 }
-function typeName(t) {
-  if (t === 'sprint') return 'SPRINT';
-  if (t === 'recovery') return 'RECUPERO';
-  if (t === 'warmup') return 'RISCALDAMENTO';
-  if (t === 'cooldown') return 'DEFATICAMENTO';
+
+function typeName(type) {
+  if (type === 'sprint') return 'SPRINT';
+  if (type === 'recovery') return 'RECUPERO';
+  if (type === 'warmup') return 'RISCALDAMENTO';
+  if (type === 'cooldown') return 'DEFATICAMENTO';
   return 'LIBERO';
 }
+
 function fmt(s) {
   var sec = Math.max(0, Math.floor(s));
-  return Math.floor(sec / 60) + ':' + (sec % 60).toString().padStart(2, '0');
+  var m = Math.floor(sec / 60);
+  var ss = (sec % 60).toString().padStart(2, '0');
+  return m + ':' + ss;
 }
+
 function fmtLong(s) {
   var sec = Math.max(0, Math.floor(s));
-  return Math.floor(sec / 60).toString().padStart(2, '0') + ':' + (sec % 60).toString().padStart(2, '0');
+  var m = Math.floor(sec / 60).toString().padStart(2, '0');
+  var ss = (sec % 60).toString().padStart(2, '0');
+  return m + ':' + ss;
 }
-function setText(id, txt) {
+
+function setText(id, text) {
   var el = document.getElementById(id);
-  if (el) { if (typeof el.textContent !== 'undefined') el.textContent = txt; else el.innerText = txt; }
+  if (el) {
+    if (typeof el.textContent !== 'undefined') {
+      el.textContent = text;
+    } else {
+      el.innerText = text;
+    }
+  }
 }
-function setColor(id, c) { var el = document.getElementById(id); if (el) el.style.color = c; }
+
+function setColor(id, color) {
+  var el = document.getElementById(id);
+  if (el) el.style.color = color;
+}
+
+function setBg(id, color) {
+  var el = document.getElementById(id);
+  if (el) el.style.backgroundColor = color;
+}
 
 // ─── START / STOP ───
 function startProgram(key) {
   ensureAudio();
   state.program = PROGRAMS[key];
-  state.phaseIndex = 0; state.phaseElapsed = 0; state.totalElapsed = 0;
-  state.running = true; state.paused = false; state.freeSpm = 24;
-  state.lastTick = perfNow(); state.metronomePhase = 0; state.lastMetronomeBeat = 0;
-  state.lastUIUpdate = 0;
+  state.phaseIndex = 0;
+  state.phaseElapsed = 0;
+  state.totalElapsed = 0;
+  state.running = true;
+  state.paused = false;
+  state.freeSpm = 24;
+  state.lastTick = perfNow();
+  state.metronomePhase = 0;
+  state.lastMetronomeBeat = 0;
 
-  setText('programTitle', state.program.title);
+  // Show audio engine status
+  var audioStatus = '';
+  if (webAudioWorks) {
+    audioStatus = 'Audio: ON';
+  } else if (htmlAudioWorks) {
+    audioStatus = 'Audio: ON';
+  } else {
+    audioStatus = 'Audio: OFF';
+  }
+
+  setText('programTitle', state.program.title + '  [' + audioStatus + ']');
   elMenu.style.display = 'none';
   elWorkout.style.display = 'block';
 
@@ -601,30 +666,44 @@ function startProgram(key) {
   document.getElementById('btnSpmDown').style.display = isFree ? 'inline-block' : 'none';
   setText('btnPause', 'Pausa');
 
-  canvasDirty = true;
   buildTimeline();
   playPhaseChange();
   requestAnimationFrame(tick);
 }
 
 function stopWorkout() {
-  state.running = false; state.paused = false; state.program = null;
-  state.phaseIndex = 0; state.phaseElapsed = 0; state.totalElapsed = 0;
-  state.metronomePhase = 0; state.lastMetronomeBeat = 0; state.freeSpm = 24;
+  state.running = false;
+  state.paused = false;
+  state.program = null;
+  state.phaseIndex = 0;
+  state.phaseElapsed = 0;
+  state.totalElapsed = 0;
+  state.metronomePhase = 0;
+  state.lastMetronomeBeat = 0;
+  state.freeSpm = 24;
 
   setText('btnPause', 'Pausa');
   setText('programTitle', '\u2014');
-  setText('phaseLabel', '\u2014'); setColor('phaseLabel', '#e8eaf0');
-  setText('phaseTime', '0:00'); setColor('phaseTime', '#e8eaf0');
+  setText('phaseLabel', '\u2014');
+  setColor('phaseLabel', '#e8eaf0');
+  setText('phaseTime', '0:00');
+  setColor('phaseTime', '#e8eaf0');
   document.getElementById('phaseIndicator').style.backgroundColor = 'transparent';
   setText('phaseNext', '');
-  setText('statTotal', '00:00'); setText('statRemaining', '--:--');
-  setText('statSpm', '--'); setText('statPhaseNum', '-/-');
+  setText('statTotal', '00:00');
+  setText('statRemaining', '--:--');
+  setText('statSpm', '--');
+  setText('statPhaseNum', '-/-');
   document.getElementById('timeline').innerHTML = '';
   document.getElementById('btnSpmUp').style.display = 'none';
   document.getElementById('btnSpmDown').style.display = 'none';
   elFlash.style.opacity = '0';
-  try { ctx.clearRect(0, 0, canvasW, canvasH); } catch(e) {}
+
+  // Clear canvas
+  try {
+    ctx.clearRect(0, 0, canvasW, canvasH);
+  } catch(e) {}
+
   elWorkout.style.display = 'none';
   elMenu.style.display = 'block';
 }
@@ -632,19 +711,31 @@ function stopWorkout() {
 function togglePause() {
   state.paused = !state.paused;
   setText('btnPause', state.paused ? 'Riprendi' : 'Pausa');
-  if (!state.paused) { state.lastTick = perfNow(); requestAnimationFrame(tick); }
+  if (!state.paused) {
+    state.lastTick = perfNow();
+    requestAnimationFrame(tick);
+  }
 }
 
 function adjustSpm(d) {
   state.freeSpm = Math.max(16, Math.min(36, state.freeSpm + d));
+  // Update display immediately even when paused
   setText('statSpm', state.freeSpm.toString());
 }
 
 // ─── EVENTS ───
 function addClick(id, fn) {
   var el = document.getElementById(id);
-  if (el) el.onclick = function(e) { if (e && e.preventDefault) e.preventDefault(); fn(); return false; };
+  if (el) {
+    // Use both onclick and addEventListener for max compat
+    el.onclick = function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      fn();
+      return false;
+    };
+  }
 }
+
 addClick('card-hiit20', function() { startProgram('hiit20'); });
 addClick('card-hiit30', function() { startProgram('hiit30'); });
 addClick('card-endurance', function() { startProgram('endurance'); });
@@ -657,7 +748,10 @@ addClick('btnSpmDown', function() { adjustSpm(-2); });
 document.onkeydown = function(e) {
   e = e || window.event;
   var code = e.keyCode || e.which;
-  if (code === 32) { if (e.preventDefault) e.preventDefault(); if (state.running) togglePause(); }
+  if (code === 32) {
+    if (e.preventDefault) e.preventDefault();
+    if (state.running) togglePause();
+  }
   if (code === 27 && state.running) stopWorkout();
   if (code === 38) adjustSpm(2);
   if (code === 40) adjustSpm(-2);
@@ -669,14 +763,18 @@ function buildTimeline() {
   el.innerHTML = '';
   var phases = state.program.phases;
   var totalDur = 0;
-  for (var i = 0; i < phases.length; i++) { if (isFinite(phases[i].duration)) totalDur += phases[i].duration; }
+  var i;
+  for (i = 0; i < phases.length; i++) {
+    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
+  }
   if (totalDur === 0) { el.style.display = 'none'; return; }
   el.style.display = 'block';
-  for (var i = 0; i < phases.length; i++) {
+  for (i = 0; i < phases.length; i++) {
     if (!isFinite(phases[i].duration)) continue;
     var seg = document.createElement('span');
     seg.className = 'timeline-seg';
-    seg.style.width = ((phases[i].duration / totalDur) * 100) + '%';
+    var pct = ((phases[i].duration / totalDur) * 100);
+    seg.style.width = pct + '%';
     seg.style.backgroundColor = typeColor(phases[i].type);
     seg.setAttribute('data-idx', i.toString());
     el.appendChild(seg);
@@ -694,9 +792,12 @@ function updateTimeline() {
 // ─── TICK ───
 function tick(now) {
   if (!state.running || state.paused) return;
+
+  // Fallback if now is undefined (old rAF)
   if (typeof now !== 'number') now = perfNow();
 
   var dt = (now - state.lastTick) / 1000;
+  // Guard against huge dt (tab switch, etc)
   if (dt > 2) dt = 0.016;
   state.lastTick = now;
   state.totalElapsed += dt;
@@ -720,6 +821,7 @@ function tick(now) {
     state.phaseElapsed += dt;
   }
 
+  // Metronome
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
   var beatInterval = 60 / spm;
   var halfBeat = beatInterval / 2;
@@ -735,6 +837,7 @@ function tick(now) {
     playMetronomeTick();
   }
 
+  // Throttle DOM text updates (heavy on old GPU), canvas stays full framerate
   if (!state.lastUIUpdate || (now - state.lastUIUpdate) > 200) {
     updateUI(now);
     state.lastUIUpdate = now;
@@ -749,81 +852,140 @@ function updateUI(now) {
   var phase = phases[state.phaseIndex];
   var color = typeColor(phase.type);
 
-  setText('phaseLabel', phase.name); setColor('phaseLabel', color);
-  setText('phaseTime', isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed));
+  setText('phaseLabel', phase.name);
+  setColor('phaseLabel', color);
+
+  var phaseTimeStr = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
+  setText('phaseTime', phaseTimeStr);
   setColor('phaseTime', color);
   document.getElementById('phaseIndicator').style.backgroundColor = color;
 
   var next = phases[state.phaseIndex + 1];
   setText('phaseNext', next ? ('Prossima: ' + next.name + ' (' + fmt(next.duration) + ')') : 'Ultima fase');
+
   setText('statTotal', fmtLong(state.totalElapsed));
 
   var totalDur = 0;
-  for (var i = 0; i < phases.length; i++) { if (isFinite(phases[i].duration)) totalDur += phases[i].duration; }
+  for (var i = 0; i < phases.length; i++) {
+    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
+  }
   setText('statRemaining', (totalDur > 0) ? fmtLong(totalDur - state.totalElapsed) : '--:--');
 
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
   setText('statSpm', spm.toString());
   setText('statPhaseNum', (state.phaseIndex + 1) + '/' + phases.length);
+
   updateTimeline();
 }
 
 // ─── CANVAS ───
-var canvasW = 0, canvasH = 0, canvasDirty = true;
+// Cache canvas dimensions - only recalc on resize
+var canvasW = 0;
+var canvasH = 0;
+var canvasDirty = true;
 
-function resizeCanvas() { canvasDirty = true; }
-if (window.addEventListener) window.addEventListener('resize', resizeCanvas, false);
-else if (window.attachEvent) window.attachEvent('onresize', resizeCanvas);
+function resizeCanvas() {
+  canvasDirty = true;
+}
+
+// Check once on first draw and on resize
+if (window.addEventListener) {
+  window.addEventListener('resize', resizeCanvas, false);
+} else if (window.attachEvent) {
+  window.attachEvent('onresize', resizeCanvas);
+}
 
 function drawCanvas(now) {
   if (canvasDirty) {
     var rect = elCanvas.getBoundingClientRect();
     var w = Math.round(rect.width);
     var h = Math.round(rect.height);
-    if (w > 0 && h > 0) { elCanvas.width = w; elCanvas.height = h; canvasW = w; canvasH = h; canvasDirty = false; }
+    if (w > 0 && h > 0) {
+      elCanvas.width = w;
+      elCanvas.height = h;
+      canvasW = w;
+      canvasH = h;
+      canvasDirty = false;
+    }
   }
-  var W = canvasW, H = canvasH;
+
+  var W = canvasW;
+  var H = canvasH;
   if (W === 0 || H === 0) return;
+
   ctx.clearRect(0, 0, W, H);
+
   if (!state.program) return;
 
   var phases = state.program.phases;
   var phase = phases[state.phaseIndex];
   var color = typeColor(phase.type);
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
-  var cx = W / 2, cy = H * 0.42;
+
+  var cx = W / 2;
+  var cy = H * 0.42;
   var R = Math.min(W, H) * 0.30;
+
   var progress = isFinite(phase.duration) ? (state.phaseElapsed / phase.duration) : ((state.phaseElapsed % 60) / 60);
 
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
-  ctx.lineWidth = R * 0.1; ctx.strokeStyle = '#1a1e28'; ctx.stroke();
+  // Track ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.lineWidth = R * 0.1;
+  ctx.strokeStyle = '#1a1e28';
+  ctx.stroke();
 
+  // Progress arc
   var startA = -Math.PI / 2;
-  ctx.beginPath(); ctx.arc(cx, cy, R, startA, startA + Math.PI * 2 * progress);
-  ctx.lineWidth = R * 0.1; ctx.lineCap = 'round'; ctx.strokeStyle = color; ctx.stroke();
+  var endA = startA + Math.PI * 2 * progress;
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, startA, endA);
+  ctx.lineWidth = R * 0.1;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = color;
+  ctx.stroke();
 
+  // Center time
+  var timeText = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
   ctx.fillStyle = color;
   ctx.font = 'bold ' + Math.round(R * 0.45) + 'px Courier New, monospace';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed), cx, cy - R * 0.05);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(timeText, cx, cy - R * 0.05);
 
+  // Phase name under timer
   ctx.fillStyle = '#7a8194';
   ctx.font = 'bold ' + Math.round(R * 0.14) + 'px Arial, sans-serif';
   ctx.fillText(typeName(phase.type), cx, cy + R * 0.28);
 
+  // ── Metronome ──
   var metY = H * 0.84;
-  var barW = W * 0.65, barX = (W - barW) / 2;
-  ctx.fillStyle = '#1a1e28'; ctx.fillRect(barX, metY - 3, barW, 6);
+  var beatInterval = 60 / spm;
+  var beatProgress = state.metronomePhase / beatInterval;
+
+  // Bar
+  var barW = W * 0.65;
+  var barX = (W - barW) / 2;
+  ctx.fillStyle = '#1a1e28';
+  ctx.fillRect(barX, metY - 3, barW, 6);
+
+  // 3 tick marks only (simpler = faster)
   ctx.fillStyle = '#333842';
   ctx.fillRect(barX - 1, metY - 8, 2, 16);
   ctx.fillRect(cx - 1, metY - 8, 2, 16);
   ctx.fillRect(barX + barW - 1, metY - 8, 2, 16);
 
-  var beatProgress = state.metronomePhase / (60 / spm);
-  var dotX = cx + Math.cos(beatProgress * Math.PI * 2) * barW * 0.5;
-  ctx.beginPath(); ctx.arc(dotX, metY, 9, 0, Math.PI * 2);
-  ctx.fillStyle = color; ctx.fill();
+  // Pendulum dot – full bar
+  var swing = Math.cos(beatProgress * Math.PI * 2);
+  var dotX = cx + swing * barW * 0.5;
+  var dotR = 9;
 
+  ctx.beginPath();
+  ctx.arc(dotX, metY, dotR, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+
+  // SPM label
   ctx.fillStyle = '#7a8194';
   ctx.font = 'bold ' + Math.round(Math.min(W, H) * 0.035) + 'px Arial, sans-serif';
   ctx.fillText(spm + ' SPM', cx, metY + 24);
