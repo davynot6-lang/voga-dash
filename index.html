@@ -22,20 +22,20 @@
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     text-align: center;
-    padding-top: 8%;
+    padding-top: 3%;
   }
 
   .menu-title {
-    font-size: 42px;
+    font-size: 36px;
     font-weight: bold;
     color: #42a5f5;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .menu-subtitle {
-    font-size: 20px;
+    font-size: 18px;
     color: #7a8194;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
   }
 
   .menu-grid {
@@ -53,7 +53,7 @@
     background-color: #12151c;
     border: 2px solid #252a36;
     border-radius: 10px;
-    padding: 22px 20px;
+    padding: 14px 18px;
     cursor: pointer;
     text-decoration: none;
     color: #e8eaf0;
@@ -65,23 +65,23 @@
   }
 
   .card-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .card-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: #7a8194;
-    line-height: 1.4;
-    margin-bottom: 8px;
+    line-height: 1.3;
+    margin-bottom: 5px;
   }
 
   .card-badge {
     display: inline-block;
-    padding: 3px 10px;
-    border-radius: 5px;
-    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
     font-weight: bold;
     text-transform: uppercase;
   }
@@ -371,43 +371,59 @@ var perfNow = (function() {
   return function() { return new Date().getTime() - start; };
 })();
 
-// ─── AUDIO ───
+// ─── AUDIO (pre-generated buffers for performance) ───
 var AudioCtx = window.AudioContext || window.webkitAudioContext || null;
 var audioCtx = null;
+var bufferTick = null;
+var bufferBeep1 = null;
+var bufferBeep2 = null;
+var bufferBeep3 = null;
 
 function ensureAudio() {
   if (!audioCtx && AudioCtx) {
-    try { audioCtx = new AudioCtx(); } catch(e) {}
+    try { audioCtx = new AudioCtx(); } catch(e) { return; }
+    // Pre-generate all audio buffers once
+    bufferTick = generateTone(1200, 0.04, 0.15);
+    bufferBeep1 = generateTone(660, 0.12, 0.4);
+    bufferBeep2 = generateTone(880, 0.15, 0.5);
+    bufferBeep3 = generateTone(1100, 0.2, 0.4);
   }
 }
 
-function playBeep(freq, dur, vol) {
-  if (!audioCtx) return;
-  freq = freq || 880;
-  dur = dur || 0.12;
-  vol = vol || 0.35;
+function generateTone(freq, dur, vol) {
+  if (!audioCtx) return null;
   try {
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(0);
-    osc.stop(audioCtx.currentTime + dur);
+    var sampleRate = audioCtx.sampleRate;
+    var length = Math.round(sampleRate * dur);
+    var buffer = audioCtx.createBuffer(1, length, sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < length; i++) {
+      var t = i / sampleRate;
+      var envelope = Math.max(0.001, 1.0 - (t / dur) * 3);
+      data[i] = Math.sin(2 * Math.PI * freq * t) * vol * envelope;
+    }
+    return buffer;
+  } catch(e) { return null; }
+}
+
+function playBuffer(buf) {
+  if (!audioCtx || !buf) return;
+  try {
+    var src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(audioCtx.destination);
+    src.start(0);
   } catch(e) {}
 }
 
 function playPhaseChange() {
-  playBeep(660, 0.1, 0.4);
-  setTimeout(function() { playBeep(880, 0.15, 0.5); }, 120);
-  setTimeout(function() { playBeep(1100, 0.2, 0.4); }, 260);
+  playBuffer(bufferBeep1);
+  setTimeout(function() { playBuffer(bufferBeep2); }, 120);
+  setTimeout(function() { playBuffer(bufferBeep3); }, 260);
 }
 
 function playMetronomeTick() {
-  playBeep(1200, 0.03, 0.12);
+  playBuffer(bufferTick);
 }
 
 // ─── PROGRAMS ───
@@ -711,7 +727,11 @@ function tick(now) {
     playMetronomeTick();
   }
 
-  updateUI(now);
+  // Throttle DOM text updates (heavy on old GPU), canvas stays full framerate
+  if (!state.lastUIUpdate || (now - state.lastUIUpdate) > 200) {
+    updateUI(now);
+    state.lastUIUpdate = now;
+  }
   drawCanvas(now);
   requestAnimationFrame(tick);
 }
@@ -744,11 +764,6 @@ function updateUI(now) {
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
   setText('statSpm', spm.toString());
   setText('statPhaseNum', (state.phaseIndex + 1) + '/' + phases.length);
-
-  var beatAge = (now - state.lastMetronomeBeat) / 1000;
-  var flashOp = Math.max(0, 0.06 - beatAge * 0.5);
-  elFlash.style.opacity = flashOp.toString();
-  elFlash.style.backgroundColor = color;
 
   updateTimeline();
 }
