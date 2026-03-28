@@ -36,11 +36,11 @@
   .menu-title { font-size: 32px; font-weight: bold; color: #42a5f5; margin-bottom: 2px; }
   .menu-subtitle { font-size: 16px; color: #7a8194; margin-bottom: 10px; }
   .menu-grid {
-    display: inline-block; width: 94%; max-width: 1100px; text-align: left;
+    display: inline-block; width: 96%; max-width: 1200px; text-align: left;
   }
   .menu-card {
     display: inline-block; vertical-align: top;
-    width: 23%; margin: 0.5%;
+    width: 24%; margin: 0.4%;
     background-color: #12151c; border: 2px solid #252a36; border-radius: 8px;
     padding: 10px 12px 24px 12px; cursor: pointer; text-decoration: none; color: #e8eaf0;
     height: 105px; overflow: hidden;
@@ -48,11 +48,11 @@
   }
   .menu-card:hover, .menu-card:focus { border-color: #42a5f5; outline: none; }
   .card-icon-canvas {
-    width: 32px; height: 32px; display: inline-block; vertical-align: bottom;
-    margin-right: 8px;
+    width: 28px; height: 28px; display: inline-block; vertical-align: bottom;
+    margin-right: 6px;
   }
   .card-title {
-    font-size: 15px; font-weight: bold;
+    font-size: 14px; font-weight: bold;
     display: inline-block; vertical-align: bottom;
     margin-bottom: 0;
   }
@@ -159,7 +159,7 @@
     </a>
     <a class="menu-card" id="card-begin20" href="javascript:void(0)" tabindex="2">
       <canvas class="card-icon-canvas" id="icon-begin20" width="72" height="72"></canvas>
-      <div class="card-title">20 min Steady State</div>
+      <div class="card-title">20 min Steady</div>
       <div class="card-desc">Ritmo costante a 22 SPM, costruisci resistenza</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
@@ -221,7 +221,7 @@
     </a>
     <a class="menu-card" id="card-sprint15" href="javascript:void(0)" tabindex="12">
       <canvas class="card-icon-canvas" id="icon-sprint15" width="72" height="72"></canvas>
-      <div class="card-title">15 min Sprint 500m</div>
+      <div class="card-title">15 min Sprint</div>
       <div class="card-desc">6x30s massimo sforzo, 2min recupero</div>
       <div class="card-badge badge-power">Potenza</div>
     </a>
@@ -406,7 +406,7 @@ var PROGRAMS = {
     ph('Leggero Aumento', 240, 'recovery', 22), ph('Ritmo Base', 120, 'recovery', 20),
     ph('Defaticamento', 120, 'cooldown', 18)
   ]},
-  begin20: { title: '20 min Steady State', phases: [
+  begin20: { title: '20 min Steady', phases: [
     ph('Riscaldamento', 300, 'warmup', 20), ph('Steady State', 600, 'recovery', 22),
     ph('Steady State +', 300, 'recovery', 24), ph('Defaticamento', 180, 'cooldown', 18) // corretto: 1380s non 1200, aggiusto
   ]},
