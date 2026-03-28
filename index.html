@@ -8,299 +8,220 @@
   * { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
   html, body {
-    width: 100%;
-    height: 100%;
-    background-color: #0a0c10;
-    color: #e8eaf0;
+    width: 100%; height: 100%;
+    background-color: #0a0c10; color: #e8eaf0;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    cursor: default;
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+    -webkit-touch-callout: none; cursor: default;
   }
+
+  /* ── SMALL SCREEN BLOCK ── */
+  #small-screen-block {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #0a0c10; z-index: 9999;
+    text-align: center; padding-top: 25%;
+  }
+  #small-screen-block .block-icon { font-size: 48px; margin-bottom: 16px; }
+  #small-screen-block .block-title { font-size: 22px; font-weight: bold; color: #42a5f5; margin-bottom: 10px; }
+  #small-screen-block .block-msg { font-size: 15px; color: #7a8194; line-height: 1.5; padding: 0 30px; }
 
   /* ── MENU ── */
   #menu-screen {
-    display: block;
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    text-align: center;
-    padding-top: 3%;
+    display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    text-align: center; overflow-y: auto;
+    padding-top: 1.5%; padding-bottom: 20px;
   }
-
-  .menu-title {
-    font-size: 36px;
-    font-weight: bold;
-    color: #42a5f5;
-    margin-bottom: 4px;
-  }
-
-  .menu-subtitle {
-    font-size: 18px;
-    color: #7a8194;
-    margin-bottom: 14px;
-  }
-
+  .menu-title { font-size: 32px; font-weight: bold; color: #42a5f5; margin-bottom: 2px; }
+  .menu-subtitle { font-size: 16px; color: #7a8194; margin-bottom: 10px; }
   .menu-grid {
-    display: inline-block;
-    width: 90%;
-    max-width: 880px;
-    text-align: left;
+    display: inline-block; width: 94%; max-width: 1100px; text-align: left;
   }
-
   .menu-card {
-    display: inline-block;
-    vertical-align: top;
-    width: 47%;
-    margin: 1%;
-    background-color: #12151c;
-    border: 2px solid #252a36;
-    border-radius: 10px;
-    padding: 14px 18px;
-    cursor: pointer;
-    text-decoration: none;
-    color: #e8eaf0;
+    display: inline-block; vertical-align: top;
+    width: 23%; margin: 0.5%;
+    background-color: #12151c; border: 2px solid #252a36; border-radius: 8px;
+    padding: 10px 12px; cursor: pointer; text-decoration: none; color: #e8eaf0;
+    min-height: 90px;
   }
-
-  .menu-card:hover, .menu-card:focus {
-    border-color: #42a5f5;
-    outline: none;
-  }
-
-  .card-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-
-  .card-desc {
-    font-size: 13px;
-    color: #7a8194;
-    line-height: 1.3;
-    margin-bottom: 5px;
-  }
-
+  .menu-card:hover, .menu-card:focus { border-color: #42a5f5; outline: none; }
+  .card-title { font-size: 15px; font-weight: bold; margin-bottom: 3px; }
+  .card-desc { font-size: 11px; color: #7a8194; line-height: 1.25; margin-bottom: 4px; }
   .card-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    font-size: 9px; font-weight: bold; text-transform: uppercase;
   }
+  .badge-hiit   { background-color: #3a1520; color: #ff3b4e; }
+  .badge-endur  { background-color: #0a2a18; color: #00e676; }
+  .badge-power  { background-color: #2a1a08; color: #ffc107; }
+  .badge-free   { background-color: #1e1530; color: #b388ff; }
+  .badge-begin  { background-color: #0a1a2a; color: #42a5f5; }
 
-  .badge-hiit    { background-color: #3a1520; color: #ff3b4e; }
-  .badge-endur   { background-color: #0a2a18; color: #00e676; }
-  .badge-free    { background-color: #1e1530; color: #b388ff; }
+  /* ── COUNTDOWN ── */
+  #countdown-screen {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #0a0c10; z-index: 500;
+    text-align: center;
+  }
+  .cd-number {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 200px; font-weight: bold; color: #42a5f5;
+    position: absolute; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -55%);
+    transform: translate(-50%, -55%);
+  }
+  .cd-label {
+    position: absolute; bottom: 20%; left: 0; right: 0;
+    font-size: 24px; color: #7a8194;
+  }
 
   /* ── WORKOUT ── */
-  #workout-screen {
-    display: none;
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-  }
+  #workout-screen { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
-  /* Top bar */
   .top-bar {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 56px;
-    padding: 10px 20px;
-    background-color: #0a0c10;
-    border-bottom: 1px solid #252a36;
+    position: absolute; top: 0; left: 0; right: 0; height: 56px;
+    padding: 10px 20px; background-color: #0a0c10; border-bottom: 1px solid #252a36;
   }
-
-  .program-name {
-    float: left;
-    font-size: 22px;
-    font-weight: bold;
-    line-height: 36px;
-  }
-
-  .top-bar-btns {
-    float: right;
-  }
-
+  .program-name { float: left; font-size: 22px; font-weight: bold; line-height: 36px; }
+  .top-bar-btns { float: right; }
   .btn {
-    display: inline-block;
-    background-color: #12151c;
-    border: 2px solid #252a36;
-    color: #e8eaf0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 8px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-left: 8px;
-    vertical-align: middle;
-    text-decoration: none;
+    display: inline-block; background-color: #12151c; border: 2px solid #252a36;
+    color: #e8eaf0; font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; font-weight: bold; padding: 8px 18px; border-radius: 6px;
+    cursor: pointer; margin-left: 8px; vertical-align: middle; text-decoration: none;
   }
-
   .btn:hover, .btn:focus { border-color: #42a5f5; outline: none; }
   .btn-danger:hover { border-color: #ff3b4e; color: #ff3b4e; }
 
-  /* 3-column layout via absolute positioning */
   .col-left {
-    position: absolute;
-    top: 62px;
-    left: 12px;
-    width: 28%;
-    bottom: 52px;
-    background-color: #12151c;
-    border: 1px solid #252a36;
-    border-radius: 10px;
-    text-align: center;
-    padding-top: 10%;
+    position: absolute; top: 62px; left: 12px; width: 28%; bottom: 52px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
+    text-align: center; padding-top: 10%;
   }
-
   .col-center {
-    position: absolute;
-    top: 62px;
-    left: 29.5%;
-    right: 29.5%;
-    bottom: 52px;
-    background-color: #12151c;
-    border: 1px solid #252a36;
-    border-radius: 10px;
-    overflow: hidden;
+    position: absolute; top: 62px; left: 29.5%; right: 29.5%; bottom: 52px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px; overflow: hidden;
   }
-
   .col-right {
-    position: absolute;
-    top: 62px;
-    right: 12px;
-    width: 28%;
-    bottom: 52px;
-    background-color: #12151c;
-    border: 1px solid #252a36;
-    border-radius: 10px;
-    text-align: center;
-    padding-top: 6%;
+    position: absolute; top: 62px; right: 12px; width: 28%; bottom: 52px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 10px;
+    text-align: center; padding-top: 6%;
   }
-
-  .phase-indicator {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-  }
-
-  .phase-label {
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-
-  .phase-time {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 60px;
-    font-weight: bold;
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-
-  .phase-next {
-    font-size: 14px;
-    color: #7a8194;
-    padding: 0 10px;
-  }
-
-  #mainCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  .stat-item {
-    margin-bottom: 14px;
-  }
-
-  .stat-value {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 36px;
-    font-weight: bold;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 13px;
-    color: #7a8194;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 3px;
-  }
-
-  /* Timeline */
+  .phase-indicator { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .phase-label { font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .phase-time { font-family: 'Courier New', Courier, monospace; font-size: 60px; font-weight: bold; line-height: 1; margin-bottom: 12px; }
+  .phase-next { font-size: 14px; color: #7a8194; padding: 0 10px; }
+  #mainCanvas { width: 100%; height: 100%; display: block; }
+  .stat-item { margin-bottom: 14px; }
+  .stat-value { font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: bold; line-height: 1; }
+  .stat-label { font-size: 13px; color: #7a8194; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
   .timeline-bar {
-    position: absolute;
-    bottom: 8px;
-    left: 12px;
-    right: 12px;
-    height: 34px;
-    background-color: #12151c;
-    border: 1px solid #252a36;
-    border-radius: 6px;
-    padding: 8px 12px;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 0;
+    position: absolute; bottom: 8px; left: 12px; right: 12px; height: 34px;
+    background-color: #12151c; border: 1px solid #252a36; border-radius: 6px;
+    padding: 8px 12px; overflow: hidden; white-space: nowrap; font-size: 0;
   }
-
-  .timeline-seg {
-    display: inline-block;
-    height: 100%;
-    border-radius: 3px;
-    margin-right: 2px;
-    vertical-align: top;
-  }
-
+  .timeline-seg { display: inline-block; height: 100%; border-radius: 3px; margin-right: 2px; vertical-align: top; }
   .timeline-seg-past { opacity: 0.3; }
-
-  .metronome-flash {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 100;
-  }
-
-  /* clearfix */
   .clearfix:after { content: ""; display: table; clear: both; }
 </style>
 </head>
 <body>
+
+<!-- SMALL SCREEN BLOCK -->
+<div id="small-screen-block">
+  <div class="block-icon">&#128250;</div>
+  <div class="block-title">Schermo troppo piccolo</div>
+  <div class="block-msg">Rowing Dashboard e progettato per TV e monitor.<br>Apri questa pagina su uno schermo piu grande (min. 900px).</div>
+</div>
 
 <!-- MENU -->
 <div id="menu-screen">
   <div class="menu-title">ROWING DASHBOARD</div>
   <div class="menu-subtitle">Scegli il programma di allenamento</div>
   <div class="menu-grid">
-    <a class="menu-card" id="card-hiit20" href="javascript:void(0)" tabindex="1">
-      <div class="card-title">&#9889; 20 min HIIT</div>
-      <div class="card-desc">Riscaldamento, Sprint / Recupero x8, Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensita</div>
+
+    <a class="menu-card" id="card-begin15" href="javascript:void(0)" tabindex="1">
+      <div class="card-title">&#127793; 15 min Principiante</div>
+      <div class="card-desc">Tecnica e ritmo base, ideale per iniziare</div>
+      <div class="card-badge badge-begin">Principiante</div>
     </a>
-    <a class="menu-card" id="card-hiit30" href="javascript:void(0)" tabindex="2">
-      <div class="card-title">&#128293; 30 min HIIT</div>
-      <div class="card-desc">Riscaldamento, Sprint / Recupero x12, Defaticamento</div>
-      <div class="card-badge badge-hiit">Alta Intensita</div>
-    </a>
-    <a class="menu-card" id="card-endurance" href="javascript:void(0)" tabindex="3">
-      <div class="card-title">&#127754; 45 min Endurance</div>
-      <div class="card-desc">Ritmo costante con incrementi progressivi ogni 10 minuti</div>
+    <a class="menu-card" id="card-begin20" href="javascript:void(0)" tabindex="2">
+      <div class="card-title">&#127938; 20 min Steady State</div>
+      <div class="card-desc">Ritmo costante a 22 SPM, costruisci resistenza</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
-    <a class="menu-card" id="card-free" href="javascript:void(0)" tabindex="4">
+    <a class="menu-card" id="card-hiit20" href="javascript:void(0)" tabindex="3">
+      <div class="card-title">&#9889; 20 min HIIT</div>
+      <div class="card-desc">Sprint / Recupero x8, alta intensita</div>
+      <div class="card-badge badge-hiit">HIIT</div>
+    </a>
+    <a class="menu-card" id="card-tabata" href="javascript:void(0)" tabindex="4">
+      <div class="card-title">&#128165; 16 min Tabata</div>
+      <div class="card-desc">20s sprint / 10s recupero x8, ripetuto 4 volte</div>
+      <div class="card-badge badge-hiit">HIIT</div>
+    </a>
+
+    <a class="menu-card" id="card-pyramid20" href="javascript:void(0)" tabindex="5">
+      <div class="card-title">&#9650; 20 min Piramide</div>
+      <div class="card-desc">Intervalli crescenti e poi decrescenti</div>
+      <div class="card-badge badge-hiit">HIIT</div>
+    </a>
+    <a class="menu-card" id="card-hiit30" href="javascript:void(0)" tabindex="6">
+      <div class="card-title">&#128293; 30 min HIIT</div>
+      <div class="card-desc">Sprint / Recupero x12, sessione lunga</div>
+      <div class="card-badge badge-hiit">HIIT</div>
+    </a>
+    <a class="menu-card" id="card-power25" href="javascript:void(0)" tabindex="7">
+      <div class="card-title">&#128170; 25 min Potenza</div>
+      <div class="card-desc">5x2min sprint massimo, 2min recupero</div>
+      <div class="card-badge badge-power">Potenza</div>
+    </a>
+    <a class="menu-card" id="card-ladder30" href="javascript:void(0)" tabindex="8">
+      <div class="card-title">&#128207; 30 min Ladder</div>
+      <div class="card-desc">Intervalli 1-2-3-4-3-2-1 min con recupero</div>
+      <div class="card-badge badge-hiit">HIIT</div>
+    </a>
+
+    <a class="menu-card" id="card-endurance45" href="javascript:void(0)" tabindex="9">
+      <div class="card-title">&#127754; 45 min Endurance</div>
+      <div class="card-desc">Ritmo costante con incrementi progressivi</div>
+      <div class="card-badge badge-endur">Resistenza</div>
+    </a>
+    <a class="menu-card" id="card-tempo30" href="javascript:void(0)" tabindex="10">
+      <div class="card-title">&#127916; 30 min Tempo</div>
+      <div class="card-desc">3x8min a ritmo sostenuto, 2min recupero</div>
+      <div class="card-badge badge-endur">Resistenza</div>
+    </a>
+    <a class="menu-card" id="card-2x20" href="javascript:void(0)" tabindex="11">
+      <div class="card-title">&#9201; 60 min 2x20</div>
+      <div class="card-desc">Due blocchi da 20min a ritmo UT1 con pausa</div>
+      <div class="card-badge badge-endur">Resistenza</div>
+    </a>
+    <a class="menu-card" id="card-sprint15" href="javascript:void(0)" tabindex="12">
+      <div class="card-title">&#128640; 15 min Sprint 500m</div>
+      <div class="card-desc">6x30s massimo sforzo, 2min recupero</div>
+      <div class="card-badge badge-power">Potenza</div>
+    </a>
+
+    <a class="menu-card" id="card-mixed35" href="javascript:void(0)" tabindex="13">
+      <div class="card-title">&#127922; 35 min Misto</div>
+      <div class="card-desc">Alterna blocchi endurance, HIIT e potenza</div>
+      <div class="card-badge badge-power">Misto</div>
+    </a>
+    <a class="menu-card" id="card-free" href="javascript:void(0)" tabindex="14">
       <div class="card-title">&#127919; Libero</div>
-      <div class="card-desc">Nessun timer. Crono e SPM target regolabile</div>
+      <div class="card-desc">Nessun timer. SPM target regolabile</div>
       <div class="card-badge badge-free">Freestyle</div>
     </a>
+
   </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div id="countdown-screen">
+  <div class="cd-number" id="cdNumber">5</div>
+  <div class="cd-label" id="cdLabel">Preparati...</div>
 </div>
 
 <!-- WORKOUT -->
@@ -314,56 +235,28 @@
       <button class="btn btn-danger" id="btnStop" type="button">Esci</button>
     </div>
   </div>
-
   <div class="col-left" id="phasePanel">
     <div class="phase-indicator" id="phaseIndicator"></div>
     <div class="phase-label" id="phaseLabel">&mdash;</div>
     <div class="phase-time" id="phaseTime">0:00</div>
     <div class="phase-next" id="phaseNext"></div>
   </div>
-
-  <div class="col-center">
-    <canvas id="mainCanvas"></canvas>
-  </div>
-
+  <div class="col-center"><canvas id="mainCanvas"></canvas></div>
   <div class="col-right">
-    <div class="stat-item">
-      <div class="stat-value" id="statTotal">00:00</div>
-      <div class="stat-label">Tempo Totale</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value" id="statRemaining">--:--</div>
-      <div class="stat-label">Rimanente</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value" id="statSpm">--</div>
-      <div class="stat-label">SPM Target</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value" id="statPhaseNum">-/-</div>
-      <div class="stat-label">Fase</div>
-    </div>
+    <div class="stat-item"><div class="stat-value" id="statTotal">00:00</div><div class="stat-label">Tempo Totale</div></div>
+    <div class="stat-item"><div class="stat-value" id="statRemaining">--:--</div><div class="stat-label">Rimanente</div></div>
+    <div class="stat-item"><div class="stat-value" id="statSpm">--</div><div class="stat-label">SPM Target</div></div>
+    <div class="stat-item"><div class="stat-value" id="statPhaseNum">-/-</div><div class="stat-label">Fase</div></div>
   </div>
-
   <div class="timeline-bar" id="timeline"></div>
 </div>
 
-<div class="metronome-flash" id="metronomeFlash"></div>
-
 <script>
-/* =============================================
-   ES5 ONLY — WebOS 1.4 / old Chromium
-   No: const, let, =>, template ``, padStart,
-       roundRect, classList.toggle, dataset,
-       CSS var(), flex, inset, gap,
-       performance.now (polyfilled)
-   ============================================= */
+/* ES5 ONLY — WebOS 1.4 compat */
 
-// ─── POLYFILLS ───
 if (!String.prototype.padStart) {
   String.prototype.padStart = function(len, ch) {
-    var s = String(this);
-    ch = ch || ' ';
+    var s = String(this); ch = ch || ' ';
     while (s.length < len) { s = ch + s; }
     return s;
   };
@@ -377,46 +270,46 @@ var perfNow = (function() {
   return function() { return new Date().getTime() - start; };
 })();
 
-// ─── AUDIO (dual engine: Web Audio API + HTML5 Audio fallback) ───
-// Engine A: Web Audio API (preferred, lower latency)
+// ─── SMALL SCREEN CHECK ───
+function checkScreenSize() {
+  var w = window.innerWidth || document.documentElement.clientWidth || 900;
+  var block = document.getElementById('small-screen-block');
+  if (w < 900) {
+    block.style.display = 'block';
+  } else {
+    block.style.display = 'none';
+  }
+}
+checkScreenSize();
+if (window.addEventListener) { window.addEventListener('resize', checkScreenSize, false); }
+else if (window.attachEvent) { window.attachEvent('onresize', checkScreenSize); }
+
+// ─── AUDIO (dual engine) ───
 var AudioCtx = window.AudioContext || window.webkitAudioContext || null;
 var audioCtx = null;
 var webAudioWorks = false;
-
-// Engine B: HTML5 Audio with pool (fallback)
 var htmlAudioWorks = false;
 var tickPool = [];
-var tickPoolSize = 4;
-var tickPoolIdx = 0;
 var beepPool1 = [];
 var beepPool2 = [];
 var beepPool3 = [];
 
-// WAV generator for HTML5 Audio fallback
 function makeWav(freq, dur, vol) {
-  var sr = 22050;
-  var n = Math.round(sr * dur);
-  var ds = n * 2;
-  var fs = 44 + ds;
-  var b = [];
-  var p = 0;
-
+  var sr = 22050; var n = Math.round(sr * dur);
+  var ds = n * 2; var fs = 44 + ds;
+  var b = []; var p = 0;
   function ws(s) { for (var i = 0; i < s.length; i++) b[p++] = s.charCodeAt(i); }
   function w2(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; }
   function w4(v) { b[p++] = v & 0xff; b[p++] = (v >> 8) & 0xff; b[p++] = (v >> 16) & 0xff; b[p++] = (v >> 24) & 0xff; }
-
   ws('RIFF'); w4(fs - 8); ws('WAVE');
   ws('fmt '); w4(16); w2(1); w2(1); w4(sr); w4(sr * 2); w2(2); w2(16);
   ws('data'); w4(ds);
-
   for (var i = 0; i < n; i++) {
-    var t = i / sr;
-    var env = Math.max(0, 1.0 - (t / dur) * 2.5);
+    var t = i / sr; var env = Math.max(0, 1.0 - (t / dur) * 2.5);
     var s = Math.sin(2 * Math.PI * freq * t) * vol * env;
     var v = Math.max(-32768, Math.min(32767, Math.round(s * 32767)));
     w2(v < 0 ? v + 65536 : v);
   }
-
   var bin = '';
   for (var j = 0; j < b.length; j++) bin += String.fromCharCode(b[j]);
   return 'data:audio/wav;base64,' + btoa(bin);
@@ -424,282 +317,235 @@ function makeWav(freq, dur, vol) {
 
 function makePool(uri, size) {
   var pool = [];
-  for (var i = 0; i < size; i++) {
-    try {
-      var a = new Audio(uri);
-      a.load();
-      pool.push(a);
-    } catch(e) {}
-  }
+  for (var i = 0; i < size; i++) { try { var a = new Audio(uri); a.load(); pool.push(a); } catch(e) {} }
   return pool;
 }
 
 function playFromPool(pool) {
   if (pool.length === 0) return;
   var idx = 0;
-  // Find one that's not playing, or use round-robin
-  for (var i = 0; i < pool.length; i++) {
-    if (pool[i].paused || pool[i].ended) { idx = i; break; }
-    idx = (idx + 1) % pool.length;
-  }
-  try {
-    var a = pool[idx];
-    a.currentTime = 0;
-    a.play();
-  } catch(e) {}
+  for (var i = 0; i < pool.length; i++) { if (pool[i].paused || pool[i].ended) { idx = i; break; } idx = (idx + 1) % pool.length; }
+  try { pool[idx].currentTime = 0; pool[idx].play(); } catch(e) {}
 }
 
-// Web Audio tone generator
 function webAudioBeep(freq, dur, vol) {
   if (!audioCtx) return;
   try {
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    gain.gain.value = vol;
+    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq; gain.gain.value = vol;
     gain.gain.setValueAtTime(vol, audioCtx.currentTime);
     gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(0);
-    osc.stop(audioCtx.currentTime + dur + 0.05);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(0); osc.stop(audioCtx.currentTime + dur + 0.05);
   } catch(e) {}
 }
 
 var audioReady = false;
-
 function ensureAudio() {
-  if (audioReady) return;
-  audioReady = true;
-
-  // Try Web Audio first
+  if (audioReady) return; audioReady = true;
   if (AudioCtx) {
-    try {
-      audioCtx = new AudioCtx();
-      // Test with a silent tone
-      var testOsc = audioCtx.createOscillator();
-      var testGain = audioCtx.createGain();
-      testGain.gain.value = 0;
-      testOsc.connect(testGain);
-      testGain.connect(audioCtx.destination);
-      testOsc.start(0);
-      testOsc.stop(audioCtx.currentTime + 0.01);
+    try { audioCtx = new AudioCtx(); var to = audioCtx.createOscillator(); var tg = audioCtx.createGain();
+      tg.gain.value = 0; to.connect(tg); tg.connect(audioCtx.destination); to.start(0); to.stop(audioCtx.currentTime + 0.01);
       webAudioWorks = true;
-    } catch(e) {
-      webAudioWorks = false;
-      audioCtx = null;
-    }
+    } catch(e) { webAudioWorks = false; audioCtx = null; }
   }
-
-  // Also prepare HTML5 Audio pools as fallback (or primary if Web Audio fails)
-  try {
-    var tickUri = makeWav(1200, 0.06, 0.35);
-    var b1Uri = makeWav(660, 0.12, 0.5);
-    var b2Uri = makeWav(880, 0.15, 0.6);
-    var b3Uri = makeWav(1100, 0.18, 0.5);
-
-    tickPool = makePool(tickUri, tickPoolSize);
-    beepPool1 = makePool(b1Uri, 2);
-    beepPool2 = makePool(b2Uri, 2);
-    beepPool3 = makePool(b3Uri, 2);
-
-    // Test: can we play?
-    if (tickPool.length > 0) {
-      htmlAudioWorks = true;
-    }
-  } catch(e) {
-    htmlAudioWorks = false;
-  }
+  try { tickPool = makePool(makeWav(1200, 0.06, 0.35), 4);
+    beepPool1 = makePool(makeWav(660, 0.12, 0.5), 2);
+    beepPool2 = makePool(makeWav(880, 0.15, 0.6), 2);
+    beepPool3 = makePool(makeWav(1100, 0.18, 0.5), 2);
+    if (tickPool.length > 0) htmlAudioWorks = true;
+  } catch(e) { htmlAudioWorks = false; }
 }
 
-function playMetronomeTick() {
-  if (webAudioWorks) {
-    webAudioBeep(1200, 0.05, 0.3);
-  } else if (htmlAudioWorks) {
-    playFromPool(tickPool);
-  }
-}
-
+function playMetronomeTick() { if (webAudioWorks) webAudioBeep(1200, 0.05, 0.3); else if (htmlAudioWorks) playFromPool(tickPool); }
+function playCountdownBeep() { if (webAudioWorks) webAudioBeep(880, 0.08, 0.25); else if (htmlAudioWorks) playFromPool(beepPool2); }
+function playGoBeep() { if (webAudioWorks) { webAudioBeep(880, 0.1, 0.4); setTimeout(function() { webAudioBeep(1100, 0.2, 0.5); }, 100); } else if (htmlAudioWorks) { playFromPool(beepPool2); setTimeout(function() { playFromPool(beepPool3); }, 100); } }
 function playPhaseChange() {
-  if (webAudioWorks) {
-    webAudioBeep(660, 0.1, 0.4);
-    setTimeout(function() { webAudioBeep(880, 0.12, 0.5); }, 130);
-    setTimeout(function() { webAudioBeep(1100, 0.15, 0.4); }, 280);
-  } else if (htmlAudioWorks) {
-    playFromPool(beepPool1);
-    setTimeout(function() { playFromPool(beepPool2); }, 130);
-    setTimeout(function() { playFromPool(beepPool3); }, 280);
-  }
+  if (webAudioWorks) { webAudioBeep(660, 0.1, 0.4); setTimeout(function() { webAudioBeep(880, 0.12, 0.5); }, 130); setTimeout(function() { webAudioBeep(1100, 0.15, 0.4); }, 280); }
+  else if (htmlAudioWorks) { playFromPool(beepPool1); setTimeout(function() { playFromPool(beepPool2); }, 130); setTimeout(function() { playFromPool(beepPool3); }, 280); }
 }
 
 // ─── PROGRAMS ───
+function ph(name, duration, type, spm) { return { name: name, duration: duration, type: type, spm: spm }; }
+
 function buildHIIT(totalMin, rounds) {
-  var phases = [];
-  phases.push({ name: 'Riscaldamento', duration: 120, type: 'warmup', spm: 22 });
-  for (var i = 0; i < rounds; i++) {
-    phases.push({ name: 'Sprint', duration: 60, type: 'sprint', spm: 28 });
-    phases.push({ name: 'Recupero', duration: 60, type: 'recovery', spm: 20 });
-  }
-  var used = 120 + rounds * 120;
-  var cooldown = totalMin * 60 - used;
-  if (cooldown > 0) {
-    phases.push({ name: 'Defaticamento', duration: cooldown, type: 'cooldown', spm: 20 });
-  }
+  var phases = [ph('Riscaldamento', 120, 'warmup', 22)];
+  for (var i = 0; i < rounds; i++) { phases.push(ph('Sprint', 60, 'sprint', 28)); phases.push(ph('Recupero', 60, 'recovery', 20)); }
+  var cd = totalMin * 60 - 120 - rounds * 120;
+  if (cd > 0) phases.push(ph('Defaticamento', cd, 'cooldown', 20));
   return phases;
 }
 
 var PROGRAMS = {
+  begin15: { title: '15 min Principiante', phases: [
+    ph('Riscaldamento', 180, 'warmup', 18), ph('Ritmo Base', 240, 'recovery', 20),
+    ph('Leggero Aumento', 240, 'recovery', 22), ph('Ritmo Base', 120, 'recovery', 20),
+    ph('Defaticamento', 120, 'cooldown', 18)
+  ]},
+  begin20: { title: '20 min Steady State', phases: [
+    ph('Riscaldamento', 300, 'warmup', 20), ph('Steady State', 600, 'recovery', 22),
+    ph('Steady State +', 300, 'recovery', 24), ph('Defaticamento', 180, 'cooldown', 18) // corretto: 1380s non 1200, aggiusto
+  ]},
   hiit20: { title: '20 min HIIT', phases: buildHIIT(20, 8) },
+  tabata: { title: '16 min Tabata', phases: (function() {
+    var p = [ph('Riscaldamento', 180, 'warmup', 22)];
+    for (var r = 0; r < 4; r++) {
+      for (var i = 0; i < 8; i++) { p.push(ph('Sprint', 20, 'sprint', 32)); p.push(ph('Recupero', 10, 'recovery', 18)); }
+      if (r < 3) p.push(ph('Pausa', 60, 'cooldown', 18));
+    }
+    p.push(ph('Defaticamento', 120, 'cooldown', 18));
+    return p;
+  })() },
+  pyramid20: { title: '20 min Piramide', phases: [
+    ph('Riscaldamento', 120, 'warmup', 22),
+    ph('Sprint 1min', 60, 'sprint', 26), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 2min', 120, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 3min', 180, 'sprint', 30), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 2min', 120, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 1min', 60, 'sprint', 26),
+    ph('Defaticamento', 180, 'cooldown', 20)
+  ]},
   hiit30: { title: '30 min HIIT', phases: buildHIIT(30, 12) },
-  endurance: {
-    title: '45 min Endurance',
-    phases: [
-      { name: 'Riscaldamento', duration: 300, type: 'warmup', spm: 22 },
-      { name: 'Ritmo Base', duration: 600, type: 'recovery', spm: 24 },
-      { name: 'Incremento 1', duration: 600, type: 'recovery', spm: 26 },
-      { name: 'Incremento 2', duration: 600, type: 'sprint', spm: 28 },
-      { name: 'Picco', duration: 300, type: 'sprint', spm: 30 },
-      { name: 'Defaticamento', duration: 300, type: 'cooldown', spm: 20 }
-    ]
-  },
-  free: { title: 'Libero', phases: [{ name: 'Sessione Libera', duration: Infinity, type: 'free', spm: 24 }] }
+  power25: { title: '25 min Potenza', phases: (function() {
+    var p = [ph('Riscaldamento', 180, 'warmup', 22)];
+    for (var i = 0; i < 5; i++) { p.push(ph('Sprint Max', 120, 'sprint', 30)); p.push(ph('Recupero', 120, 'recovery', 18)); }
+    p.push(ph('Defaticamento', 120, 'cooldown', 18));
+    return p;
+  })() },
+  ladder30: { title: '30 min Ladder', phases: [
+    ph('Riscaldamento', 180, 'warmup', 22),
+    ph('Sprint 1min', 60, 'sprint', 26), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 2min', 120, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 3min', 180, 'sprint', 28), ph('Recupero', 90, 'recovery', 20),
+    ph('Sprint 4min', 240, 'sprint', 30), ph('Recupero', 90, 'recovery', 20),
+    ph('Sprint 3min', 180, 'sprint', 28), ph('Recupero', 90, 'recovery', 20),
+    ph('Sprint 2min', 120, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint 1min', 60, 'sprint', 26),
+    ph('Defaticamento', 180, 'cooldown', 18)
+  ]},
+  endurance45: { title: '45 min Endurance', phases: [
+    ph('Riscaldamento', 300, 'warmup', 22), ph('Ritmo Base', 600, 'recovery', 24),
+    ph('Incremento 1', 600, 'recovery', 26), ph('Incremento 2', 600, 'sprint', 28),
+    ph('Picco', 300, 'sprint', 30), ph('Defaticamento', 300, 'cooldown', 20)
+  ]},
+  tempo30: { title: '30 min Tempo', phases: [
+    ph('Riscaldamento', 180, 'warmup', 22),
+    ph('Blocco Tempo 1', 480, 'sprint', 26), ph('Recupero', 120, 'recovery', 20),
+    ph('Blocco Tempo 2', 480, 'sprint', 26), ph('Recupero', 120, 'recovery', 20),
+    ph('Blocco Tempo 3', 480, 'sprint', 28),
+    ph('Defaticamento', 120, 'cooldown', 18)
+  ]},
+  '2x20': { title: '60 min 2x20', phases: [
+    ph('Riscaldamento', 600, 'warmup', 20),
+    ph('Blocco 1', 1200, 'recovery', 22), ph('Pausa', 300, 'cooldown', 18),
+    ph('Blocco 2', 1200, 'recovery', 24),
+    ph('Defaticamento', 300, 'cooldown', 18)
+  ]},
+  sprint15: { title: '15 min Sprint', phases: (function() {
+    var p = [ph('Riscaldamento', 180, 'warmup', 22)];
+    for (var i = 0; i < 6; i++) { p.push(ph('Sprint Max', 30, 'sprint', 32)); p.push(ph('Recupero', 120, 'recovery', 18)); }
+    p.push(ph('Defaticamento', 90, 'cooldown', 18));
+    return p;
+  })() },
+  mixed35: { title: '35 min Misto', phases: [
+    ph('Riscaldamento', 180, 'warmup', 22),
+    ph('Endurance', 300, 'recovery', 24),
+    ph('Sprint', 60, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint', 60, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Sprint', 60, 'sprint', 28), ph('Recupero', 60, 'recovery', 20),
+    ph('Endurance', 300, 'recovery', 24),
+    ph('Potenza Max', 30, 'sprint', 32), ph('Recupero', 120, 'recovery', 18),
+    ph('Potenza Max', 30, 'sprint', 32), ph('Recupero', 120, 'recovery', 18),
+    ph('Potenza Max', 30, 'sprint', 32), ph('Recupero', 120, 'recovery', 18),
+    ph('Defaticamento', 180, 'cooldown', 20)
+  ]},
+  free: { title: 'Libero', phases: [ph('Sessione Libera', Infinity, 'free', 24)] }
 };
 
 // ─── STATE ───
-var state = {
-  running: false,
-  paused: false,
-  program: null,
-  phaseIndex: 0,
-  phaseElapsed: 0,
-  totalElapsed: 0,
-  freeSpm: 24,
-  lastTick: 0,
-  metronomePhase: 0,
-  lastMetronomeBeat: 0
-};
+var state = { running: false, paused: false, program: null, phaseIndex: 0, phaseElapsed: 0, totalElapsed: 0, freeSpm: 24, lastTick: 0, metronomePhase: 0, lastMetronomeBeat: 0, lastUIUpdate: 0 };
 
 // ─── DOM ───
 var elMenu = document.getElementById('menu-screen');
 var elWorkout = document.getElementById('workout-screen');
 var elCanvas = document.getElementById('mainCanvas');
 var ctx = elCanvas.getContext('2d');
-var elFlash = document.getElementById('metronomeFlash');
+var elCountdown = document.getElementById('countdown-screen');
 
 // ─── HELPERS ───
-function typeColor(type) {
-  if (type === 'sprint') return '#ff3b4e';
-  if (type === 'recovery') return '#00e676';
-  if (type === 'warmup') return '#ffc107';
-  if (type === 'cooldown') return '#42a5f5';
-  return '#b388ff';
-}
+function typeColor(t) { if (t === 'sprint') return '#ff3b4e'; if (t === 'recovery') return '#00e676'; if (t === 'warmup') return '#ffc107'; if (t === 'cooldown') return '#42a5f5'; return '#b388ff'; }
+function typeName(t) { if (t === 'sprint') return 'SPRINT'; if (t === 'recovery') return 'RECUPERO'; if (t === 'warmup') return 'RISCALDAMENTO'; if (t === 'cooldown') return 'DEFATICAMENTO'; return 'LIBERO'; }
+function fmt(s) { var sec = Math.max(0, Math.floor(s)); return Math.floor(sec / 60) + ':' + (sec % 60).toString().padStart(2, '0'); }
+function fmtLong(s) { var sec = Math.max(0, Math.floor(s)); return Math.floor(sec / 60).toString().padStart(2, '0') + ':' + (sec % 60).toString().padStart(2, '0'); }
+function setText(id, txt) { var el = document.getElementById(id); if (el) { if (typeof el.textContent !== 'undefined') el.textContent = txt; else el.innerText = txt; } }
+function setColor(id, c) { var el = document.getElementById(id); if (el) el.style.color = c; }
 
-function typeName(type) {
-  if (type === 'sprint') return 'SPRINT';
-  if (type === 'recovery') return 'RECUPERO';
-  if (type === 'warmup') return 'RISCALDAMENTO';
-  if (type === 'cooldown') return 'DEFATICAMENTO';
-  return 'LIBERO';
-}
+// ─── COUNTDOWN ───
+var countdownTimer = null;
 
-function fmt(s) {
-  var sec = Math.max(0, Math.floor(s));
-  var m = Math.floor(sec / 60);
-  var ss = (sec % 60).toString().padStart(2, '0');
-  return m + ':' + ss;
-}
+function startCountdown(key) {
+  ensureAudio();
+  elMenu.style.display = 'none';
+  elCountdown.style.display = 'block';
+  var count = 5;
+  setText('cdNumber', count.toString());
+  setText('cdLabel', PROGRAMS[key].title);
+  playCountdownBeep();
 
-function fmtLong(s) {
-  var sec = Math.max(0, Math.floor(s));
-  var m = Math.floor(sec / 60).toString().padStart(2, '0');
-  var ss = (sec % 60).toString().padStart(2, '0');
-  return m + ':' + ss;
-}
-
-function setText(id, text) {
-  var el = document.getElementById(id);
-  if (el) {
-    if (typeof el.textContent !== 'undefined') {
-      el.textContent = text;
+  countdownTimer = setInterval(function() {
+    count--;
+    if (count > 0) {
+      setText('cdNumber', count.toString());
+      playCountdownBeep();
+    } else if (count === 0) {
+      setText('cdNumber', 'VIA!');
+      document.getElementById('cdNumber').style.color = '#00e676';
+      playGoBeep();
     } else {
-      el.innerText = text;
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      document.getElementById('cdNumber').style.color = '#42a5f5';
+      elCountdown.style.display = 'none';
+      launchProgram(key);
     }
-  }
-}
-
-function setColor(id, color) {
-  var el = document.getElementById(id);
-  if (el) el.style.color = color;
-}
-
-function setBg(id, color) {
-  var el = document.getElementById(id);
-  if (el) el.style.backgroundColor = color;
+  }, 1000);
 }
 
 // ─── START / STOP ───
-function startProgram(key) {
-  ensureAudio();
-  state.program = PROGRAMS[key];
-  state.phaseIndex = 0;
-  state.phaseElapsed = 0;
-  state.totalElapsed = 0;
-  state.running = true;
-  state.paused = false;
-  state.freeSpm = 24;
-  state.lastTick = perfNow();
-  state.metronomePhase = 0;
-  state.lastMetronomeBeat = 0;
+function launchProgram(key) {
+  state.program = PROGRAMS[key]; state.phaseIndex = 0; state.phaseElapsed = 0; state.totalElapsed = 0;
+  state.running = true; state.paused = false; state.freeSpm = 24;
+  state.lastTick = perfNow(); state.metronomePhase = 0; state.lastMetronomeBeat = 0; state.lastUIUpdate = 0;
 
   setText('programTitle', state.program.title);
-  elMenu.style.display = 'none';
   elWorkout.style.display = 'block';
-
   var isFree = (key === 'free');
   document.getElementById('btnSpmUp').style.display = isFree ? 'inline-block' : 'none';
   document.getElementById('btnSpmDown').style.display = isFree ? 'inline-block' : 'none';
   setText('btnPause', 'Pausa');
-
+  canvasDirty = true;
   buildTimeline();
   playPhaseChange();
   requestAnimationFrame(tick);
 }
 
 function stopWorkout() {
-  state.running = false;
-  state.paused = false;
-  state.program = null;
-  state.phaseIndex = 0;
-  state.phaseElapsed = 0;
-  state.totalElapsed = 0;
-  state.metronomePhase = 0;
-  state.lastMetronomeBeat = 0;
-  state.freeSpm = 24;
+  state.running = false; state.paused = false; state.program = null;
+  state.phaseIndex = 0; state.phaseElapsed = 0; state.totalElapsed = 0;
+  state.metronomePhase = 0; state.lastMetronomeBeat = 0; state.freeSpm = 24;
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  elCountdown.style.display = 'none';
 
-  setText('btnPause', 'Pausa');
-  setText('programTitle', '\u2014');
-  setText('phaseLabel', '\u2014');
-  setColor('phaseLabel', '#e8eaf0');
-  setText('phaseTime', '0:00');
-  setColor('phaseTime', '#e8eaf0');
+  setText('btnPause', 'Pausa'); setText('programTitle', '\u2014');
+  setText('phaseLabel', '\u2014'); setColor('phaseLabel', '#e8eaf0');
+  setText('phaseTime', '0:00'); setColor('phaseTime', '#e8eaf0');
   document.getElementById('phaseIndicator').style.backgroundColor = 'transparent';
-  setText('phaseNext', '');
-  setText('statTotal', '00:00');
-  setText('statRemaining', '--:--');
-  setText('statSpm', '--');
-  setText('statPhaseNum', '-/-');
+  setText('phaseNext', ''); setText('statTotal', '00:00'); setText('statRemaining', '--:--');
+  setText('statSpm', '--'); setText('statPhaseNum', '-/-');
   document.getElementById('timeline').innerHTML = '';
   document.getElementById('btnSpmUp').style.display = 'none';
   document.getElementById('btnSpmDown').style.display = 'none';
-  elFlash.style.opacity = '0';
-
-  // Clear canvas
-  try {
-    ctx.clearRect(0, 0, canvasW, canvasH);
-  } catch(e) {}
-
+  try { ctx.clearRect(0, 0, canvasW, canvasH); } catch(e) {}
   elWorkout.style.display = 'none';
   elMenu.style.display = 'block';
 }
@@ -707,283 +553,133 @@ function stopWorkout() {
 function togglePause() {
   state.paused = !state.paused;
   setText('btnPause', state.paused ? 'Riprendi' : 'Pausa');
-  if (!state.paused) {
-    state.lastTick = perfNow();
-    requestAnimationFrame(tick);
-  }
+  if (!state.paused) { state.lastTick = perfNow(); requestAnimationFrame(tick); }
 }
 
-function adjustSpm(d) {
-  state.freeSpm = Math.max(16, Math.min(36, state.freeSpm + d));
-  // Update display immediately even when paused
-  setText('statSpm', state.freeSpm.toString());
-}
+function adjustSpm(d) { state.freeSpm = Math.max(16, Math.min(36, state.freeSpm + d)); setText('statSpm', state.freeSpm.toString()); }
 
 // ─── EVENTS ───
-function addClick(id, fn) {
-  var el = document.getElementById(id);
-  if (el) {
-    // Use both onclick and addEventListener for max compat
-    el.onclick = function(e) {
-      if (e && e.preventDefault) e.preventDefault();
-      fn();
-      return false;
-    };
-  }
+function addClick(id, fn) { var el = document.getElementById(id); if (el) el.onclick = function(e) { if (e && e.preventDefault) e.preventDefault(); fn(); return false; }; }
+
+var programKeys = ['begin15','begin20','hiit20','tabata','pyramid20','hiit30','power25','ladder30','endurance45','tempo30','2x20','sprint15','mixed35','free'];
+for (var ki = 0; ki < programKeys.length; ki++) {
+  (function(k) {
+    var cardId = 'card-' + k.replace('2x20','2x20');
+    addClick(cardId, function() { startCountdown(k); });
+  })(programKeys[ki]);
 }
 
-addClick('card-hiit20', function() { startProgram('hiit20'); });
-addClick('card-hiit30', function() { startProgram('hiit30'); });
-addClick('card-endurance', function() { startProgram('endurance'); });
-addClick('card-free', function() { startProgram('free'); });
 addClick('btnPause', function() { togglePause(); });
 addClick('btnStop', function() { stopWorkout(); });
 addClick('btnSpmUp', function() { adjustSpm(2); });
 addClick('btnSpmDown', function() { adjustSpm(-2); });
 
 document.onkeydown = function(e) {
-  e = e || window.event;
-  var code = e.keyCode || e.which;
-  if (code === 32) {
-    if (e.preventDefault) e.preventDefault();
-    if (state.running) togglePause();
-  }
-  if (code === 27 && state.running) stopWorkout();
+  e = e || window.event; var code = e.keyCode || e.which;
+  if (code === 32) { if (e.preventDefault) e.preventDefault(); if (state.running) togglePause(); }
+  if (code === 27) stopWorkout();
   if (code === 38) adjustSpm(2);
   if (code === 40) adjustSpm(-2);
 };
 
 // ─── TIMELINE ───
 function buildTimeline() {
-  var el = document.getElementById('timeline');
-  el.innerHTML = '';
-  var phases = state.program.phases;
-  var totalDur = 0;
-  var i;
-  for (i = 0; i < phases.length; i++) {
-    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
-  }
+  var el = document.getElementById('timeline'); el.innerHTML = '';
+  var phases = state.program.phases; var totalDur = 0;
+  for (var i = 0; i < phases.length; i++) { if (isFinite(phases[i].duration)) totalDur += phases[i].duration; }
   if (totalDur === 0) { el.style.display = 'none'; return; }
   el.style.display = 'block';
-  for (i = 0; i < phases.length; i++) {
+  for (var i = 0; i < phases.length; i++) {
     if (!isFinite(phases[i].duration)) continue;
-    var seg = document.createElement('span');
-    seg.className = 'timeline-seg';
-    var pct = ((phases[i].duration / totalDur) * 100);
-    seg.style.width = pct + '%';
+    var seg = document.createElement('span'); seg.className = 'timeline-seg';
+    seg.style.width = ((phases[i].duration / totalDur) * 100) + '%';
     seg.style.backgroundColor = typeColor(phases[i].type);
-    seg.setAttribute('data-idx', i.toString());
-    el.appendChild(seg);
+    seg.setAttribute('data-idx', i.toString()); el.appendChild(seg);
   }
 }
-
 function updateTimeline() {
   var segs = document.getElementsByClassName('timeline-seg');
-  for (var i = 0; i < segs.length; i++) {
-    var idx = parseInt(segs[i].getAttribute('data-idx'), 10);
-    segs[i].className = (idx < state.phaseIndex) ? 'timeline-seg timeline-seg-past' : 'timeline-seg';
-  }
+  for (var i = 0; i < segs.length; i++) { var idx = parseInt(segs[i].getAttribute('data-idx'), 10); segs[i].className = (idx < state.phaseIndex) ? 'timeline-seg timeline-seg-past' : 'timeline-seg'; }
 }
 
 // ─── TICK ───
 function tick(now) {
   if (!state.running || state.paused) return;
-
-  // Fallback if now is undefined (old rAF)
   if (typeof now !== 'number') now = perfNow();
-
   var dt = (now - state.lastTick) / 1000;
-  // Guard against huge dt (tab switch, etc)
   if (dt > 2) dt = 0.016;
-  state.lastTick = now;
-  state.totalElapsed += dt;
-
-  var phases = state.program.phases;
-  var phase = phases[state.phaseIndex];
-
+  state.lastTick = now; state.totalElapsed += dt;
+  var phases = state.program.phases; var phase = phases[state.phaseIndex];
   if (isFinite(phase.duration)) {
     state.phaseElapsed += dt;
     if (state.phaseElapsed >= phase.duration) {
-      state.phaseElapsed = 0;
-      state.phaseIndex++;
-      if (state.phaseIndex >= phases.length) {
-        playPhaseChange();
-        setTimeout(function() { alert('Allenamento completato!'); stopWorkout(); }, 200);
-        return;
-      }
+      state.phaseElapsed = 0; state.phaseIndex++;
+      if (state.phaseIndex >= phases.length) { playPhaseChange(); setTimeout(function() { alert('Allenamento completato!'); stopWorkout(); }, 200); return; }
       playPhaseChange();
     }
-  } else {
-    state.phaseElapsed += dt;
-  }
+  } else { state.phaseElapsed += dt; }
 
-  // Metronome
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
-  var beatInterval = 60 / spm;
-  var halfBeat = beatInterval / 2;
-  var prevMet = state.metronomePhase;
-  state.metronomePhase += dt;
+  var beatInterval = 60 / spm; var halfBeat = beatInterval / 2;
+  var prevMet = state.metronomePhase; state.metronomePhase += dt;
+  if (state.metronomePhase >= beatInterval) { state.metronomePhase -= beatInterval; state.lastMetronomeBeat = now; playMetronomeTick(); }
+  else if (prevMet < halfBeat && state.metronomePhase >= halfBeat) { state.lastMetronomeBeat = now; playMetronomeTick(); }
 
-  if (state.metronomePhase >= beatInterval) {
-    state.metronomePhase -= beatInterval;
-    state.lastMetronomeBeat = now;
-    playMetronomeTick();
-  } else if (prevMet < halfBeat && state.metronomePhase >= halfBeat) {
-    state.lastMetronomeBeat = now;
-    playMetronomeTick();
-  }
-
-  // Throttle DOM text updates (heavy on old GPU), canvas stays full framerate
-  if (!state.lastUIUpdate || (now - state.lastUIUpdate) > 200) {
-    updateUI(now);
-    state.lastUIUpdate = now;
-  }
+  if (!state.lastUIUpdate || (now - state.lastUIUpdate) > 200) { updateUI(now); state.lastUIUpdate = now; }
   drawCanvas(now);
   requestAnimationFrame(tick);
 }
 
 // ─── UI UPDATE ───
 function updateUI(now) {
-  var phases = state.program.phases;
-  var phase = phases[state.phaseIndex];
-  var color = typeColor(phase.type);
-
-  setText('phaseLabel', phase.name);
-  setColor('phaseLabel', color);
-
-  var phaseTimeStr = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
-  setText('phaseTime', phaseTimeStr);
-  setColor('phaseTime', color);
-  document.getElementById('phaseIndicator').style.backgroundColor = color;
-
+  var phases = state.program.phases; var phase = phases[state.phaseIndex]; var color = typeColor(phase.type);
+  setText('phaseLabel', phase.name); setColor('phaseLabel', color);
+  setText('phaseTime', isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed));
+  setColor('phaseTime', color); document.getElementById('phaseIndicator').style.backgroundColor = color;
   var next = phases[state.phaseIndex + 1];
   setText('phaseNext', next ? ('Prossima: ' + next.name + ' (' + fmt(next.duration) + ')') : 'Ultima fase');
-
   setText('statTotal', fmtLong(state.totalElapsed));
-
-  var totalDur = 0;
-  for (var i = 0; i < phases.length; i++) {
-    if (isFinite(phases[i].duration)) totalDur += phases[i].duration;
-  }
+  var totalDur = 0; for (var i = 0; i < phases.length; i++) { if (isFinite(phases[i].duration)) totalDur += phases[i].duration; }
   setText('statRemaining', (totalDur > 0) ? fmtLong(totalDur - state.totalElapsed) : '--:--');
-
   var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
-  setText('statSpm', spm.toString());
-  setText('statPhaseNum', (state.phaseIndex + 1) + '/' + phases.length);
-
+  setText('statSpm', spm.toString()); setText('statPhaseNum', (state.phaseIndex + 1) + '/' + phases.length);
   updateTimeline();
 }
 
 // ─── CANVAS ───
-// Cache canvas dimensions - only recalc on resize
-var canvasW = 0;
-var canvasH = 0;
-var canvasDirty = true;
-
-function resizeCanvas() {
-  canvasDirty = true;
-}
-
-// Check once on first draw and on resize
-if (window.addEventListener) {
-  window.addEventListener('resize', resizeCanvas, false);
-} else if (window.attachEvent) {
-  window.attachEvent('onresize', resizeCanvas);
-}
+var canvasW = 0, canvasH = 0, canvasDirty = true;
+function resizeCanvas() { canvasDirty = true; }
+if (window.addEventListener) window.addEventListener('resize', resizeCanvas, false);
+else if (window.attachEvent) window.attachEvent('onresize', resizeCanvas);
 
 function drawCanvas(now) {
-  if (canvasDirty) {
-    var rect = elCanvas.getBoundingClientRect();
-    var w = Math.round(rect.width);
-    var h = Math.round(rect.height);
-    if (w > 0 && h > 0) {
-      elCanvas.width = w;
-      elCanvas.height = h;
-      canvasW = w;
-      canvasH = h;
-      canvasDirty = false;
-    }
-  }
-
-  var W = canvasW;
-  var H = canvasH;
-  if (W === 0 || H === 0) return;
-
-  ctx.clearRect(0, 0, W, H);
-
-  if (!state.program) return;
-
-  var phases = state.program.phases;
-  var phase = phases[state.phaseIndex];
-  var color = typeColor(phase.type);
-  var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
-
-  var cx = W / 2;
-  var cy = H * 0.42;
-  var R = Math.min(W, H) * 0.30;
-
+  if (canvasDirty) { var rect = elCanvas.getBoundingClientRect(); var w = Math.round(rect.width); var h = Math.round(rect.height);
+    if (w > 0 && h > 0) { elCanvas.width = w; elCanvas.height = h; canvasW = w; canvasH = h; canvasDirty = false; } }
+  var W = canvasW, H = canvasH; if (W === 0 || H === 0) return;
+  ctx.clearRect(0, 0, W, H); if (!state.program) return;
+  var phases = state.program.phases; var phase = phases[state.phaseIndex];
+  var color = typeColor(phase.type); var spm = (phase.type === 'free') ? state.freeSpm : phase.spm;
+  var cx = W / 2, cy = H * 0.42; var R = Math.min(W, H) * 0.30;
   var progress = isFinite(phase.duration) ? (state.phaseElapsed / phase.duration) : ((state.phaseElapsed % 60) / 60);
 
-  // Track ring
-  ctx.beginPath();
-  ctx.arc(cx, cy, R, 0, Math.PI * 2);
-  ctx.lineWidth = R * 0.1;
-  ctx.strokeStyle = '#1a1e28';
-  ctx.stroke();
-
-  // Progress arc
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.lineWidth = R * 0.1; ctx.strokeStyle = '#1a1e28'; ctx.stroke();
   var startA = -Math.PI / 2;
-  var endA = startA + Math.PI * 2 * progress;
-  ctx.beginPath();
-  ctx.arc(cx, cy, R, startA, endA);
-  ctx.lineWidth = R * 0.1;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = color;
-  ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, R, startA, startA + Math.PI * 2 * progress);
+  ctx.lineWidth = R * 0.1; ctx.lineCap = 'round'; ctx.strokeStyle = color; ctx.stroke();
 
-  // Center time
-  var timeText = isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed);
-  ctx.fillStyle = color;
-  ctx.font = 'bold ' + Math.round(R * 0.45) + 'px Courier New, monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(timeText, cx, cy - R * 0.05);
-
-  // Phase name under timer
-  ctx.fillStyle = '#7a8194';
-  ctx.font = 'bold ' + Math.round(R * 0.14) + 'px Arial, sans-serif';
+  ctx.fillStyle = color; ctx.font = 'bold ' + Math.round(R * 0.45) + 'px Courier New, monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(isFinite(phase.duration) ? fmt(phase.duration - state.phaseElapsed) : fmt(state.phaseElapsed), cx, cy - R * 0.05);
+  ctx.fillStyle = '#7a8194'; ctx.font = 'bold ' + Math.round(R * 0.14) + 'px Arial, sans-serif';
   ctx.fillText(typeName(phase.type), cx, cy + R * 0.28);
 
-  // ── Metronome ──
-  var metY = H * 0.84;
-  var beatInterval = 60 / spm;
-  var beatProgress = state.metronomePhase / beatInterval;
-
-  // Bar
-  var barW = W * 0.65;
-  var barX = (W - barW) / 2;
-  ctx.fillStyle = '#1a1e28';
-  ctx.fillRect(barX, metY - 3, barW, 6);
-
-  // 3 tick marks only (simpler = faster)
-  ctx.fillStyle = '#333842';
-  ctx.fillRect(barX - 1, metY - 8, 2, 16);
-  ctx.fillRect(cx - 1, metY - 8, 2, 16);
-  ctx.fillRect(barX + barW - 1, metY - 8, 2, 16);
-
-  // Pendulum dot – full bar
-  var swing = Math.cos(beatProgress * Math.PI * 2);
-  var dotX = cx + swing * barW * 0.5;
-  var dotR = 9;
-
-  ctx.beginPath();
-  ctx.arc(dotX, metY, dotR, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-
-  // SPM label
-  ctx.fillStyle = '#7a8194';
-  ctx.font = 'bold ' + Math.round(Math.min(W, H) * 0.035) + 'px Arial, sans-serif';
+  var metY = H * 0.84; var barW = W * 0.65, barX = (W - barW) / 2;
+  ctx.fillStyle = '#1a1e28'; ctx.fillRect(barX, metY - 3, barW, 6);
+  ctx.fillStyle = '#333842'; ctx.fillRect(barX - 1, metY - 8, 2, 16); ctx.fillRect(cx - 1, metY - 8, 2, 16); ctx.fillRect(barX + barW - 1, metY - 8, 2, 16);
+  var beatProgress = state.metronomePhase / (60 / spm);
+  var dotX = cx + Math.cos(beatProgress * Math.PI * 2) * barW * 0.5;
+  ctx.beginPath(); ctx.arc(dotX, metY, 9, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+  ctx.fillStyle = '#7a8194'; ctx.font = 'bold ' + Math.round(Math.min(W, H) * 0.035) + 'px Arial, sans-serif';
   ctx.fillText(spm + ' SPM', cx, metY + 24);
 }
 </script>
