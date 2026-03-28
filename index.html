@@ -42,15 +42,25 @@
     display: inline-block; vertical-align: top;
     width: 23%; margin: 0.5%;
     background-color: #12151c; border: 2px solid #252a36; border-radius: 8px;
-    padding: 10px 12px; cursor: pointer; text-decoration: none; color: #e8eaf0;
-    min-height: 90px;
+    padding: 10px 12px 24px 12px; cursor: pointer; text-decoration: none; color: #e8eaf0;
+    height: 105px; overflow: hidden;
+    position: relative;
   }
   .menu-card:hover, .menu-card:focus { border-color: #42a5f5; outline: none; }
-  .card-title { font-size: 15px; font-weight: bold; margin-bottom: 3px; }
-  .card-desc { font-size: 11px; color: #7a8194; line-height: 1.25; margin-bottom: 4px; }
+  .card-icon-canvas {
+    width: 32px; height: 32px; display: inline-block; vertical-align: bottom;
+    margin-right: 8px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: bold;
+    display: inline-block; vertical-align: bottom;
+    margin-bottom: 0;
+  }
+  .card-desc { font-size: 11px; color: #7a8194; line-height: 1.25; margin-top: 6px; margin-bottom: 0; }
   .card-badge {
     display: inline-block; padding: 1px 6px; border-radius: 3px;
     font-size: 9px; font-weight: bold; text-transform: uppercase;
+    position: absolute; bottom: 8px; left: 12px;
   }
   .badge-hiit   { background-color: #3a1520; color: #ff3b4e; }
   .badge-endur  { background-color: #0a2a18; color: #00e676; }
@@ -142,75 +152,89 @@
   <div class="menu-grid">
 
     <a class="menu-card" id="card-begin15" href="javascript:void(0)" tabindex="1">
-      <div class="card-title">&#127793; 15 min Principiante</div>
+      <canvas class="card-icon-canvas" id="icon-begin15" width="72" height="72"></canvas>
+      <div class="card-title">15 min Principiante</div>
       <div class="card-desc">Tecnica e ritmo base, ideale per iniziare</div>
       <div class="card-badge badge-begin">Principiante</div>
     </a>
     <a class="menu-card" id="card-begin20" href="javascript:void(0)" tabindex="2">
-      <div class="card-title">&#127938; 20 min Steady State</div>
+      <canvas class="card-icon-canvas" id="icon-begin20" width="72" height="72"></canvas>
+      <div class="card-title">20 min Steady State</div>
       <div class="card-desc">Ritmo costante a 22 SPM, costruisci resistenza</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
     <a class="menu-card" id="card-hiit20" href="javascript:void(0)" tabindex="3">
-      <div class="card-title">&#9889; 20 min HIIT</div>
+      <canvas class="card-icon-canvas" id="icon-hiit20" width="72" height="72"></canvas>
+      <div class="card-title">20 min HIIT</div>
       <div class="card-desc">Sprint / Recupero x8, alta intensita</div>
       <div class="card-badge badge-hiit">HIIT</div>
     </a>
     <a class="menu-card" id="card-tabata" href="javascript:void(0)" tabindex="4">
-      <div class="card-title">&#128165; 16 min Tabata</div>
+      <canvas class="card-icon-canvas" id="icon-tabata" width="72" height="72"></canvas>
+      <div class="card-title">16 min Tabata</div>
       <div class="card-desc">20s sprint / 10s recupero x8, ripetuto 4 volte</div>
       <div class="card-badge badge-hiit">HIIT</div>
     </a>
 
     <a class="menu-card" id="card-pyramid20" href="javascript:void(0)" tabindex="5">
-      <div class="card-title">&#9650; 20 min Piramide</div>
+      <canvas class="card-icon-canvas" id="icon-pyramid20" width="72" height="72"></canvas>
+      <div class="card-title">20 min Piramide</div>
       <div class="card-desc">Intervalli crescenti e poi decrescenti</div>
       <div class="card-badge badge-hiit">HIIT</div>
     </a>
     <a class="menu-card" id="card-hiit30" href="javascript:void(0)" tabindex="6">
-      <div class="card-title">&#128293; 30 min HIIT</div>
+      <canvas class="card-icon-canvas" id="icon-hiit30" width="72" height="72"></canvas>
+      <div class="card-title">30 min HIIT</div>
       <div class="card-desc">Sprint / Recupero x12, sessione lunga</div>
       <div class="card-badge badge-hiit">HIIT</div>
     </a>
     <a class="menu-card" id="card-power25" href="javascript:void(0)" tabindex="7">
-      <div class="card-title">&#128170; 25 min Potenza</div>
+      <canvas class="card-icon-canvas" id="icon-power25" width="72" height="72"></canvas>
+      <div class="card-title">25 min Potenza</div>
       <div class="card-desc">5x2min sprint massimo, 2min recupero</div>
       <div class="card-badge badge-power">Potenza</div>
     </a>
     <a class="menu-card" id="card-ladder30" href="javascript:void(0)" tabindex="8">
-      <div class="card-title">&#128207; 30 min Ladder</div>
+      <canvas class="card-icon-canvas" id="icon-ladder30" width="72" height="72"></canvas>
+      <div class="card-title">30 min Ladder</div>
       <div class="card-desc">Intervalli 1-2-3-4-3-2-1 min con recupero</div>
       <div class="card-badge badge-hiit">HIIT</div>
     </a>
 
     <a class="menu-card" id="card-endurance45" href="javascript:void(0)" tabindex="9">
-      <div class="card-title">&#127754; 45 min Endurance</div>
+      <canvas class="card-icon-canvas" id="icon-endurance45" width="72" height="72"></canvas>
+      <div class="card-title">45 min Endurance</div>
       <div class="card-desc">Ritmo costante con incrementi progressivi</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
     <a class="menu-card" id="card-tempo30" href="javascript:void(0)" tabindex="10">
-      <div class="card-title">&#127916; 30 min Tempo</div>
+      <canvas class="card-icon-canvas" id="icon-tempo30" width="72" height="72"></canvas>
+      <div class="card-title">30 min Tempo</div>
       <div class="card-desc">3x8min a ritmo sostenuto, 2min recupero</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
     <a class="menu-card" id="card-2x20" href="javascript:void(0)" tabindex="11">
-      <div class="card-title">&#9201; 60 min 2x20</div>
+      <canvas class="card-icon-canvas" id="icon-2x20" width="72" height="72"></canvas>
+      <div class="card-title">60 min 2x20</div>
       <div class="card-desc">Due blocchi da 20min a ritmo UT1 con pausa</div>
       <div class="card-badge badge-endur">Resistenza</div>
     </a>
     <a class="menu-card" id="card-sprint15" href="javascript:void(0)" tabindex="12">
-      <div class="card-title">&#128640; 15 min Sprint 500m</div>
+      <canvas class="card-icon-canvas" id="icon-sprint15" width="72" height="72"></canvas>
+      <div class="card-title">15 min Sprint 500m</div>
       <div class="card-desc">6x30s massimo sforzo, 2min recupero</div>
       <div class="card-badge badge-power">Potenza</div>
     </a>
 
     <a class="menu-card" id="card-mixed35" href="javascript:void(0)" tabindex="13">
-      <div class="card-title">&#127922; 35 min Misto</div>
+      <canvas class="card-icon-canvas" id="icon-mixed35" width="72" height="72"></canvas>
+      <div class="card-title">35 min Misto</div>
       <div class="card-desc">Alterna blocchi endurance, HIIT e potenza</div>
       <div class="card-badge badge-power">Misto</div>
     </a>
     <a class="menu-card" id="card-free" href="javascript:void(0)" tabindex="14">
-      <div class="card-title">&#127919; Libero</div>
+      <canvas class="card-icon-canvas" id="icon-free" width="72" height="72"></canvas>
+      <div class="card-title">Libero</div>
       <div class="card-desc">Nessun timer. SPM target regolabile</div>
       <div class="card-badge badge-free">Freestyle</div>
     </a>
@@ -682,6 +706,76 @@ function drawCanvas(now) {
   ctx.fillStyle = '#7a8194'; ctx.font = 'bold ' + Math.round(Math.min(W, H) * 0.035) + 'px Arial, sans-serif';
   ctx.fillText(spm + ' SPM', cx, metY + 24);
 }
+
+// ─── PROCEDURAL ICONS ───
+// Draws a mini intensity profile chart inside each card's canvas
+function drawIcon(canvasId, profile, color) {
+  var c = document.getElementById(canvasId);
+  if (!c) return;
+  var g = c.getContext('2d');
+  var W = 72, H = 72;
+  var pad = 6;
+  var barArea = W - pad * 2;
+  var maxH = H - pad * 2;
+  var n = profile.length;
+  var bw = Math.floor(barArea / n);
+  var gap = 1;
+
+  // Background circle
+  g.beginPath();
+  g.arc(W / 2, H / 2, 32, 0, Math.PI * 2);
+  g.fillStyle = '#1a1e28';
+  g.fill();
+
+  // Bars
+  for (var i = 0; i < n; i++) {
+    var val = profile[i]; // 0-1
+    var bh = Math.max(3, Math.round(val * maxH * 0.85));
+    var x = pad + i * bw + gap;
+    var y = H - pad - bh;
+    var bColor = color;
+    if (val > 0.8) bColor = '#ff3b4e';
+    else if (val > 0.5) bColor = color;
+    else if (val > 0.2) bColor = '#00e676';
+    else bColor = '#42a5f5';
+    g.fillStyle = bColor;
+    g.fillRect(x, y, bw - gap * 2, bh);
+  }
+}
+
+// Intensity profiles: arrays of 0-1 values representing relative intensity over time
+var iconProfiles = {
+  begin15:     [0.15, 0.2, 0.25, 0.3, 0.3, 0.35, 0.35, 0.3, 0.3, 0.25, 0.2, 0.15],
+  begin20:     [0.2, 0.25, 0.3, 0.35, 0.4, 0.4, 0.4, 0.4, 0.45, 0.45, 0.3, 0.2],
+  hiit20:      [0.2, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.2],
+  tabata:      [0.2, 1, 0.15, 1, 0.15, 1, 0.15, 1, 0.15, 1, 0.15, 1, 0.15, 1, 0.2],
+  pyramid20:   [0.2, 0.4, 0.3, 0.6, 0.3, 0.85, 0.3, 0.6, 0.3, 0.4, 0.2],
+  hiit30:      [0.2, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.9, 0.3, 0.2],
+  power25:     [0.2, 0.3, 1, 0.25, 1, 0.25, 1, 0.25, 1, 0.25, 1, 0.2],
+  ladder30:    [0.2, 0.4, 0.25, 0.55, 0.25, 0.7, 0.25, 0.9, 0.25, 0.7, 0.25, 0.55, 0.25, 0.4, 0.2],
+  endurance45: [0.2, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.5, 0.3],
+  tempo30:     [0.2, 0.6, 0.6, 0.6, 0.25, 0.6, 0.6, 0.6, 0.25, 0.65, 0.65, 0.65, 0.2],
+  '2x20':      [0.2, 0.4, 0.45, 0.45, 0.45, 0.15, 0.5, 0.5, 0.5, 0.5, 0.2],
+  sprint15:    [0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.2, 1, 0.15],
+  mixed35:     [0.2, 0.45, 0.45, 0.85, 0.3, 0.85, 0.3, 0.45, 0.45, 1, 0.2, 1, 0.2, 1, 0.2],
+  free:        [0.3, 0.35, 0.4, 0.45, 0.5, 0.45, 0.5, 0.55, 0.5, 0.45, 0.4, 0.35]
+};
+
+var iconColors = {
+  begin15: '#42a5f5', begin20: '#00e676', hiit20: '#ff3b4e', tabata: '#ff3b4e',
+  pyramid20: '#ff3b4e', hiit30: '#ff3b4e', power25: '#ffc107', ladder30: '#ff3b4e',
+  endurance45: '#00e676', tempo30: '#00e676', '2x20': '#00e676', sprint15: '#ffc107',
+  mixed35: '#ffc107', free: '#b388ff'
+};
+
+// Draw all icons on page load
+(function() {
+  var keys = ['begin15','begin20','hiit20','tabata','pyramid20','hiit30','power25','ladder30','endurance45','tempo30','2x20','sprint15','mixed35','free'];
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    drawIcon('icon-' + k, iconProfiles[k], iconColors[k]);
+  }
+})();
 </script>
 </body>
 </html>
